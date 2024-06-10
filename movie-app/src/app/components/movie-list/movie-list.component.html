@@ -1,0 +1,13 @@
+<section class="movie-list">
+    <div class="movie-list__movies">
+        <app-movie-card [data]="moviesData" (addFavorite)="handleAddFavorite($event)" (addBookmarks)="handleAddBookmark($event)"></app-movie-card>
+    </div>
+    <div class="movie-list__favorite favorite">
+        <h2>{{titleFavorite}}</h2>
+        <div class="favorite__item"></div>
+    </div>
+    <div class="movie-list__bookmarks bookmarks">
+        <h2>{{titleBookmark}}</h2>
+        <div class="bookmarks__item"></div>
+    </div>
+</section>

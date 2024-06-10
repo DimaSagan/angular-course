@@ -1,0 +1,143 @@
+@use "sass:math";
+@function percent($num1, $num2) {
+    $rez: math.div($num1, $num2) * 100%;
+    @return $rez;
+}
+@function toRem($num1, $num2: 16) {
+    $rez: math.div($num1, $num2) + rem;
+    @return $rez;
+}
+@function toEm($num1, $num2: 16) {
+    $rez: math.div($num1, $num2) + em;
+    @return $rez;
+}
+// Питиння, в якому файлі я можу зберегти ці ^^^^ фунції для подлальшого викорстання в усіх новостворенних копонентах?
+
+.movie-card {
+    max-width: toRem(280);
+    font-family: "Montserrat";
+
+    &__header {
+        position: relative;
+        overflow: hidden;
+        
+        &:not(:last-child) {
+            margin-bottom: toRem(10);
+        }
+        &:hover{
+            .description{
+                left: 0;
+            } 
+        }
+    }
+    // .movie-card__image
+
+    &__image {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    // .movie-card__wrapper
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 toRem(5) 0 toRem(5);
+        align-items: center;
+        font-size: toRem(25);
+        font-weight: 600;
+        background-color: #fff;
+        position: relative;
+        z-index: 2;
+    }
+
+    // .movie-card__title
+
+    &__title {
+    }
+
+    // .movie-card__rate
+
+    &__rate {
+    }
+
+    // .movie-card__action
+
+    &__action {
+        position: absolute;
+        bottom: toRem(5);
+        left: toRem(5);
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    // .movie-card__button
+
+    &__button {
+        width: toRem(30);
+        background-color: #fff;
+        border-radius: 50%;
+        padding: toRem(3);
+        &:not(:last-child){
+        margin-right: toRem(5);
+        }
+        img{
+            width: 100%;
+        }
+    }
+}
+.description {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    color: #fff;
+    background-color: rgba(21, 21, 21, 0.676);
+    transition: 0.5s;
+    padding: toRem(15) toRem(5) 0 toRem(5);
+    line-height: 1.27;
+    // .description___text
+
+    &___text {
+        font-size: toRem(18);
+        &:not(:last-child) {
+            margin-bottom: toRem(10);
+        }
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    // .description__info
+
+    &__info {
+    }
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: toRem(5);
+
+    // .info__director
+
+    &__director,
+    &__rate,
+    &__actors {
+        font-weight: 300;
+        span {
+            font-weight: 600;
+        }
+    }
+
+    // .info__rate
+
+    &__rate {
+    }
+
+    // .info__actors
+
+    &__actors {
+    }
+}

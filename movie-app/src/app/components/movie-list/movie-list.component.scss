@@ -1,0 +1,32 @@
+@use "sass:math";
+@function percent($num1, $num2) {
+    $rez: math.div($num1, $num2) * 100%;
+    @return $rez;
+}
+@function toRem($num1, $num2: 16) {
+    $rez: math.div($num1, $num2) + rem;
+    @return $rez;
+}
+@function toEm($num1, $num2: 16) {
+    $rez: math.div($num1, $num2) + em;
+    @return $rez;
+}
+
+.movie-list {
+    max-width: toRem(1280);
+    margin: 0 auto;
+    padding: 0 toRem(15) 0 toRem(15);
+    &__movies,
+    &__favorite {
+        &:not(:last-child) {
+            margin-bottom: toRem(50);
+        }
+    }
+}
+
+.movie-list__favorite,
+.movie-list__bookmarks {
+    font-family: "Montserrat";
+    font-size: toRem(25);
+    font-weight: 600;
+}
