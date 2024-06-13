@@ -1,64 +1,36 @@
-@use "sass:math";
-@function percent($num1, $num2) {
-    $rez: math.div($num1, $num2) * 100%;
-    @return $rez;
-}
-@function toRem($num1, $num2: 16) {
-    $rez: math.div($num1, $num2) + rem;
-    @return $rez;
-}
-@function toEm($num1, $num2: 16) {
-    $rez: math.div($num1, $num2) + em;
-    @return $rez;
-}
-// Питиння, в якому файлі я можу зберегти ці ^^^^ фунції для подлальшого викорстання в усіх новостворенних копонентах?
+@import "functions";
 
 .movie-card {
-    max-width: toRem(280);
-    font-family: "Montserrat";
+    min-width: toRem(230);
+    .favorite__movies &{
+        min-width: toRem(200);
+    }
+    height: 100%;
+    &:hover{
+        .description{
+            left: 0;
+        }
+    }
+    // .movie-card__wrapper
+
+    &__wrapper {
+        padding: 0 toRem(7.5);;
+    }
+
+    // .movie-card__header
 
     &__header {
         position: relative;
         overflow: hidden;
-        
-        &:not(:last-child) {
-            margin-bottom: toRem(10);
-        }
-        &:hover{
-            .description{
-                left: 0;
-            } 
-        }
     }
+
     // .movie-card__image
 
     &__image {
         width: 100%;
+        height: 100%;
+        aspect-ratio: 310 / 459;
         object-fit: cover;
-    }
-
-    // .movie-card__wrapper
-
-    &__wrapper {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 toRem(5) 0 toRem(5);
-        align-items: center;
-        font-size: toRem(25);
-        font-weight: 600;
-        background-color: #fff;
-        position: relative;
-        z-index: 2;
-    }
-
-    // .movie-card__title
-
-    &__title {
-    }
-
-    // .movie-card__rate
-
-    &__rate {
     }
 
     // .movie-card__action
@@ -66,67 +38,97 @@
     &__action {
         position: absolute;
         bottom: toRem(5);
-        left: toRem(5);
-        cursor: pointer;
-        z-index: 1;
+        left: toRem(7);
+        z-index: 2;
     }
 
     // .movie-card__button
 
     &__button {
-        width: toRem(30);
         background-color: #fff;
         border-radius: 50%;
-        padding: toRem(3);
+        padding: toRem(5);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
         &:not(:last-child){
-        margin-right: toRem(5);
+        margin-right:toRem(7);
+        }
+        &:hover{
+            transform: scale(1.1);
         }
         img{
-            width: 100%;
+
         }
+    }
+
+    // .movie-card__wrapper-title
+
+    &__wrapper-title {
+        position: relative;
+        z-index: 3;
+        font-size: toRem(23);
+        padding: toRem(5);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: toRem(5);
+        align-items: stretch;
+        flex-grow: 1;
+        min-height: 100%;
+        background-color: #2b303a;
+        color: #fff;
+
+    }
+
+    // .movie-card__title
+
+    &__title {
+        font-weight: 500;
+        
+    }
+
+    // .movie-card__rate
+
+    &__rate {
+        
     }
 }
 .description {
+    padding: toRem(10);
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: -100%;
+    background-color: rgba(29, 27, 27, 0.882);
+    z-index: 1;
     color: #fff;
-    background-color: rgba(21, 21, 21, 0.676);
-    transition: 0.5s;
-    padding: toRem(15) toRem(5) 0 toRem(5);
-    line-height: 1.27;
+    transition: 0.5s ease-out;
     // .description___text
 
     &___text {
-        font-size: toRem(18);
-        &:not(:last-child) {
-            margin-bottom: toRem(10);
-        }
         display: -webkit-box;
-        -webkit-line-clamp: 6;
+        -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
         overflow: hidden;
-    }
-
-    // .description__info
-
-    &__info {
+        line-height: 1.35;
+        font-weight: 500;
+        font-style: italic;
+        &:not(:last-child){
+        margin-bottom: toRem(15);
+        }
     }
 }
 .info {
     display: flex;
     flex-direction: column;
     gap: toRem(5);
-
+    line-height: 1.27;
     // .info__director
 
-    &__director,
-    &__rate,
-    &__actors {
-        font-weight: 300;
-        span {
+    &__field{
+        span{
             font-weight: 600;
         }
     }
