@@ -1,32 +1,98 @@
-@use "sass:math";
-@function percent($num1, $num2) {
-    $rez: math.div($num1, $num2) * 100%;
-    @return $rez;
-}
-@function toRem($num1, $num2: 16) {
-    $rez: math.div($num1, $num2) + rem;
-    @return $rez;
-}
-@function toEm($num1, $num2: 16) {
-    $rez: math.div($num1, $num2) + em;
-    @return $rez;
-}
+@import "functions";
 
 .movie-list {
-    max-width: toRem(1280);
+    background-color: #3d4a58;
+    max-width: toRem(1270);
+    padding: 0 toRem(15);
     margin: 0 auto;
-    padding: 0 toRem(15) 0 toRem(15);
-    &__movies,
-    &__favorite {
-        &:not(:last-child) {
-            margin-bottom: toRem(50);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: toRem(50);
+}
+.movies {
+    margin: 0 toRem(-7.5);
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: toRem(15);
+    app-movie-card {
+        flex: 0 1 25%;
+        @media (max-width: toEm($tablet)) {
+            flex: 0 1 33.333%;
+        }
+        @media (max-width: toEm($mobile)) {
+            flex: 0 1 50%;
+        }
+        @media (max-width: toEm($mobileSmall)) {
+            flex: 0 1 100%;
         }
     }
 }
-
-.movie-list__favorite,
-.movie-list__bookmarks {
-    font-family: "Montserrat";
-    font-size: toRem(25);
-    font-weight: 600;
+.favorite {
+    // .favorite__item
+    &__title{
+        font-size: toRem(30);
+        font-weight: 600;
+        color: #fff;
+        &:not(:last-child){
+        margin-bottom: toRem(15);
+        }
+    }
+    &__message{
+        font-weight: 600;
+        color: #fff;
+        font-size: toRem(20);
+    }
+    &__movies {
+        margin: 0 toRem(-7.5);
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: toRem(15);
+        app-movie-card {
+            flex: 0 1 20%;
+            @media (max-width: toEm($tablet)) {
+                flex: 0 1 25%;
+            }
+            @media (max-width: toEm($mobile)) {
+                flex: 0 1 50%;
+            }
+            @media (max-width: toEm($mobileSmall)) {
+                flex: 0 1 100%;
+            }
+        }
+    }
+}
+.bookmarks {
+    // .bookmarks__item
+    &__title{
+        font-size: toRem(30);
+        font-weight: 600;
+        color: #fff;
+        &:not(:last-child){
+        margin-bottom: toRem(15);
+        }
+    }
+    &__message{
+        font-weight: 600;
+        color: #fff;
+        font-size: toRem(20);
+    }
+    &__item {
+        margin: 0 toRem(-7.5);
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: toRem(15);
+        app-movie-card {
+            flex: 0 1 20%;
+            @media (max-width: toEm($tablet)) {
+                flex: 0 1 25%;
+            }
+            @media (max-width: toEm($mobile)) {
+                flex: 0 1 50%;
+            }
+            @media (max-width: toEm($mobileSmall)) {
+                flex: 0 1 100%;
+            }
+        }
+    }
 }
