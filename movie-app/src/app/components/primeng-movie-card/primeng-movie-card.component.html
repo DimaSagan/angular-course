@@ -1,0 +1,25 @@
+<p-card styleClass="card">
+    <ng-template pTemplate="header">
+        <img [alt]="mov.title" [src]="mov.imgPath" />
+        <div class="card__description description">
+            <p class="description__movie-description">{{mov.description}}</p>
+            <p><span>Director:</span>{{mov.director}}</p>
+            <p><span>Rate:</span>{{mov.rate}}</p>
+            <p><span>Actors:</span>{{mov.actors}}</p>
+            @if(mov.runtime){ <p><span>Runtime:</span>{{mov.runtime| timeFormat}}</p>}
+            @if(mov.seasons){<p><span>Seasons:</span>{{mov.seasons}}</p>}
+        </div>
+        <div class="card__action">
+            <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart"/>
+            <p-button (click)="addMovieToBookmarks(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" />
+        </div>
+    </ng-template>
+    <h2 class="card__title">{{mov.title}}</h2>
+
+    <ng-template pTemplate="footer">
+        <span class="card__rating">
+            {{ animatedRate }}
+        </span>
+    </ng-template>
+
+</p-card>

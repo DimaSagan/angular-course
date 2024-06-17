@@ -1,4 +1,4 @@
-<section class="movie-list">
+<!-- <section class="movie-list">
     <div class="movie-list__movies movies">
         @for (movie of moviesData; track $index) {
         <app-movie-card [item]="movie" (addFavorite)="handleAddFavorite($event)" (addBookmarks)="handleAddBookmark($event)"></app-movie-card>
@@ -30,4 +30,44 @@
         <h2 class="bookmarks__message">{{bookmarkListMessage}}</h2>
         }
     </div>
-</section>
+</section> -->
+
+
+
+<section class="movie-list">
+    
+    <div class="movie-list__movies movies">
+        <h2 class="movies__title">Most popular</h2>
+        <div class="movies__item">
+            @for (movie of moviesData; track $index) {
+            <app-primeng-movie-card [mov]="movie" (addToFavorite)="handleAddFavorite($event)" (addToBookmarks)="handleAddBookmark($event)"></app-primeng-movie-card>
+            }
+        </div>
+
+    </div>
+    <div class="movie-list__favorite favorite">
+        <h2 class="favorite__title">{{titleFavorite}}</h2>
+        @if(favoriteListSet.size > 0){ <div class="favorite__movies">
+            @for (movie of favoriteListSet; track $index) {
+                <app-primeng-movie-card [mov]="movie" (addToFavorite)="handleAddFavorite($event)" (addToBookmarks)="handleAddBookmark($event)"></app-primeng-movie-card>
+            }
+        </div>
+        }
+        @if(favoriteListSet.size === 0){
+        <h2 class="favorite__message">{{favoriteListMessage}}</h2>
+        }
+    </div>
+    <div class="movie-list__bookmarks bookmarks">
+        <h2 class="bookmarks__title">{{titleBookmark}}</h2>
+        @if(bookmarksListSet.size > 0){
+        <div class="bookmarks__item">
+            @for (movie of bookmarksListSet; track $index) {
+                <app-primeng-movie-card [mov]="movie" (addToFavorite)="handleAddFavorite($event)" (addToBookmarks)="handleAddBookmark($event)"></app-primeng-movie-card>
+            }
+        </div>
+        }
+        @if(bookmarksListSet.size===0){
+        <h2 class="bookmarks__message">{{bookmarkListMessage}}</h2>
+        }
+    </div>
+</section> 
