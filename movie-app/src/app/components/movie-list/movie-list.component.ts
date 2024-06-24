@@ -1,39 +1,44 @@
-import { Component } from '@angular/core';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
-
+import { Component, OnInit } from '@angular/core';
+import { PrimengMovieCardComponent } from '../primeng-movie-card/primeng-movie-card.component';
+import { MoviesData } from '../../../assets/mock-data/mock-data';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-movie-list',
   standalone: true,
-  imports: [MovieCardComponent],
+  imports: [
+    PrimengMovieCardComponent
+  ],
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.scss'
 })
-export class MovieListComponent {
-  moviesData = [
-    {
-      imgPath: 'assets/oppenheimer.webp',
-      title: 'Oppenheimer',
-      description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.',
-      year: '2023',
-      director: 'Christopher Nolan',
-      actors: 'Cillian Murphy, Emily Blunt, Matt Damon',
-      rate: '8.3',
-   }
-  ]
-  titleFavorite: string = 'Favorite list' 
-  titleBookmark:string = 'Bookmark'
+export class MovieListComponent  implements OnInit {
+  constructor(private router: Router) { }
+  
+ 
+
+  moviesData = MoviesData
+  public titleMovies: string = 'recommendations'
+  public titleFavorite: string = 'Favorite list'
+  public titleBookmark: string = 'Bookmark'
+  public favoriteListMessage: string = 'Add your favorite movies'
+  public bookmarkListMessage: string = 'This is where your bookmarks will be'
+  public favoriteListSet = new Set()
+  public bookmarksListSet = new Set()
+  ngOnInit() {
+    
+}
+
   handleAddFavorite(movie: any) {
-    console.log('handleAddFavorite', movie.title);
-    let fav = document.querySelector('.favorite__item') as HTMLElement
-    if (fav.innerText == movie.title) {
-      fav.innerText = ""
-    }else fav.innerText = movie.title
+    const set = this.favoriteListSet
+    this.addOrDelMovieOfList(set, movie)
   }
   handleAddBookmark(movie: any) {
-    console.log('handleAddFavorite', movie.title);
-    let fav = document.querySelector('.bookmarks__item') as HTMLElement
-    if (fav.innerText == movie.title) {
-      fav.innerText = ""
-    }else fav.innerText = movie.title
+    const set = this.bookmarksListSet
+    this.addOrDelMovieOfList(set, movie)
+  }
+  addOrDelMovieOfList(list:any, item:any) {
+    if (list.has(item)) {
+      list.delete(item)
+    } else list.add(item)
   }
 }

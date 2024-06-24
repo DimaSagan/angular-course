@@ -1,0 +1,18 @@
+<header><app-header></app-header></header>
+<div class="details">
+    <div class="details__header header">
+        <div class="header__img">
+            <img src="{{imgPath}}{{movie.poster_path}}" alt="">
+        </div>
+        <div class="header__info">
+            <p><span>Title: </span>{{movie.title}}</p>
+            <p><span>Original language: </span>{{movie.original_language}}</p>
+            <p><span>Release: </span>{{movie.release_date}}</p>
+            <p><span>Rate: </span>{{movie.vote_average | rateFormat}}</p>
+            <p>{{movie.overview}}</p>
+        </div>
+    </div>
+    <div class="details__body body">
+        
+    </div>
+</div>
