@@ -1,22 +1,50 @@
-// @import 'primeng/resources/themes/saga-blue/theme.css';
+@import "functions";
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,regular,500,500italic,600,800&display=swap");
 
-
+// For primeNG
 :root {
-  --font-family: 'Montserrat', sans-serif;  
+  --font-family: "Montserrat", sans-serif;
+  --maskbg: transparent;
 }
- 
 @layer reset, primeng;
 @layer reset {
-  
   button {
-    &:focus{
+    &:focus {
       box-shadow: none;
     }
   }
 }
-body{
-  background: rgb(50,56,92);
-background: radial-gradient(circle, rgba(50,56,92,1) 0%, rgba(47,59,73,1) 100%);
+//=============================================
+body {
+  position: relative;
+  background: #1f1f1f;
+  // overflow: clip;
+  &::after {
+    content: "";
+    color: #fff;
+    width: toRem(849);
+    height: toRem(825);
+    border-radius: 849px;
+    background: #7395e0;
+    position: fixed;
+    filter: blur(254.5px);
+    top: 50px;
+    left: 700px;
+    z-index: 1;
+  }
+  &::before {
+    content: "";
+    width: toRem(999);
+    height: toRem(971);
+    border-radius: 999px;
+    background: #dfd25b;
+ 
+    position: fixed;
+    filter: blur(254.5px);
+    top: 500px;
+    left: 0%;
+    z-index: -1;
+  }
+  background-image: url('../img/Noise.png');
 }

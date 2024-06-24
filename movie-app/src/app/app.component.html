@@ -1,2 +1,23 @@
-<app-movie-list></app-movie-list>
-<router-outlet />
+<div class="wrapper">
+    <header class="wrapper__header">
+       
+        
+    </header>
+    <main class="wrapper__page page">
+        <div class="page__container">
+            <nav class="page__sidebar">
+                <app-sidebar></app-sidebar>
+                
+            </nav>
+            <section class="page__content">
+                <router-outlet></router-outlet>
+              
+                
+            </section>
+            <section class="page__content">
+                <router-outlet name="outlet2"></router-outlet>
+            </section>
+        </div>
+    </main>
+    <footer></footer>
+</div>

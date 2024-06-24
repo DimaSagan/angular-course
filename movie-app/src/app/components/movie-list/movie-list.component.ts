@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from '../primeng-movie-card/primeng-movie-card.component';
 import { MoviesData } from '../../../assets/mock-data/mock-data';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-movie-list',
   standalone: true,
@@ -12,9 +12,11 @@ import { MoviesData } from '../../../assets/mock-data/mock-data';
   styleUrl: './movie-list.component.scss'
 })
 export class MovieListComponent  implements OnInit {
+  constructor(private router: Router) { }
+  
+ 
 
   moviesData = MoviesData
-
   public titleMovies: string = 'recommendations'
   public titleFavorite: string = 'Favorite list'
   public titleBookmark: string = 'Bookmark'
