@@ -1,6 +1,4 @@
-<!-- <a [routerLink]="['/movie', mov.id]"> -->
 <p-card styleClass="card">
-
     <ng-template pTemplate="header">
         <a [routerLink]="['/movie', mov.id]">
             <img [alt]="mov.title" src="https://image.tmdb.org/t/p/w500/{{mov.backdrop_path}}" />
@@ -14,8 +12,13 @@
             @if(mov.seasons){<p><span>Seasons:</span>{{mov.seasons}}</p>}
         </div>
         <div class="card__action">
-            <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" />
-            <p-button (click)="addMovieToBookmarks(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" />
+            @if(!buttonSwich){
+                <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" [class.active]="favoriteIsActive"/>
+                <p-button (click)="addMovieToBookmarks(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" [class.active]="bookmarkIsActive"/>
+            }
+            @if(buttonSwich){
+            <p-button (click)="deleteMovieFromlist(mov)" icon="pi pi-trash" />
+            }
         </div>
 
     </ng-template>
@@ -23,9 +26,5 @@
     <h2 class="card__title">{{mov.title}}</h2>
 
     <ng-template pTemplate="footer">
-        <!-- <span class="card__rating">
-                {{ animatedRate }}
-            </span> -->
     </ng-template>
 </p-card>
-<!-- </a> -->

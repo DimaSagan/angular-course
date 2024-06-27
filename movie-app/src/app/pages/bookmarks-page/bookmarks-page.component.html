@@ -1,4 +1,3 @@
-
-@for (movie of data; track $index) {
+@for (movie of data; track movie.id) {
     <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
     }
