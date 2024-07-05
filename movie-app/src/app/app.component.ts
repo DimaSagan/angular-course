@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from "./components/header/header.component";
+import { MovieService } from './servises/movie.service';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +15,18 @@ import { HeaderComponent } from "./components/header/header.component";
         HeaderComponent
     ]
 })
-export class AppComponent {
+export class AppComponent  implements OnInit{
   title = 'angular_course';
-}
+  
+  constructor(private movieService: MovieService) { }
+  
+  ngOnInit(): void {
+   
+  }
+
+  getRequestTokenAndRedirect(): void {
+   
+  }
+    
+  }
+

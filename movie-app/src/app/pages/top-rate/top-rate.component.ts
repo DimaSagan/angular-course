@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
 import { HeaderComponent } from "../../components/header/header.component";
 import { MovieService } from '../../servises/movie.service';
+import { Movie } from '../../models/movie.model';
 @Component({
     selector: 'app-top-rate',
     standalone: true,
@@ -10,9 +11,11 @@ import { MovieService } from '../../servises/movie.service';
     imports: [PrimengMovieCardComponent, HeaderComponent]
 })
 export class TopRateComponent implements OnInit{
-  topRatedMovies: any[] = []
+  topRatedMovies: Movie[] = []
   constructor(private movieService: MovieService){}
   ngOnInit(): void {
-    this.topRatedMovies = this.movieService.getTopRatedMovies()
+    this.movieService.getTopRatedMovies().subscribe(movies => {
+      this.topRatedMovies = movies.results
+    })
   }
 }

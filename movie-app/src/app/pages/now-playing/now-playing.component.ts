@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
 import { HeaderComponent } from "../../components/header/header.component";
 import { MovieService } from '../../servises/movie.service';
+import { Movie } from '../../models/movie.model';
 @Component({
     selector: 'app-now-playing',
     standalone: true,
@@ -11,11 +12,14 @@ import { MovieService } from '../../servises/movie.service';
 })
 export class NowPlayingComponent implements OnInit {
 
-  nowPlayingMovies:any[] = []
-
+  nowPlayingMovies: Movie[] = []
+  
   constructor(private movieService: MovieService) { }
   
   ngOnInit(): void {
-    this.nowPlayingMovies = this.movieService.getNowPlayingMovies()
+    this.movieService.getNowPlayingMovies().subscribe(movies => {
+     this.nowPlayingMovies=movies.results
+      // console.log(movies)
+    })
   }
 }
