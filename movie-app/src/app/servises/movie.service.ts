@@ -15,14 +15,7 @@ export class MovieService {
   public favoriteList: any[] = []
   public bookmarksList: any[] = []
 
-  allMovies: any[] = [
-    ...new Set([
-      ...upcomingMovies,
-      ...nowPlayingMovies,
-      ...topRatedMovies,
-      ...popularMovies,
-    ]),
-  ];
+ 
 
   apiKey: string = '?api_key=cf0314e5a3517d9563326a898c21a65f'
   apiToken: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZjAzMTRlNWEzNTE3ZDk1NjMzMjZhODk4YzIxYTY1ZiIsIm5iZiI6MTcyMDAxMzI5Mi43MTAxMDcsInN1YiI6IjY2ODU0ZWMwYzZkMzM5ZTM4MTFiY2Q3NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hHWpf0A8TNT6IQmhE1Qr25W3U5z5n-m3eBM0OiqGNXE'
@@ -62,10 +55,6 @@ export class MovieService {
   getBookmarksList() {
     return this.bookmarksList
   }
-
-  // getMovieById(id: string) {
-  //   return this.allMovies.find((movieItem) => movieItem.id === parseInt(id))
-  // }
 
   setMovieToFavorites(movie: any) {
     if (!this.favoriteList.includes(movie)) this.favoriteList.push(movie)
