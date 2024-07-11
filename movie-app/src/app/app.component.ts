@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from "./components/header/header.component";
 import { MovieService } from './servises/movie.service';
+import { from, Observable, of, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -15,18 +16,18 @@ import { MovieService } from './servises/movie.service';
         HeaderComponent
     ]
 })
-export class AppComponent  implements OnInit{
-  title = 'angular_course';
-  
-  constructor(private movieService: MovieService) { }
-  
-  ngOnInit(): void {
-   
-  }
+export class AppComponent implements OnInit {
+    title = 'angular_course';
 
-  getRequestTokenAndRedirect(): void {
-   
-  }
+    constructor(private movieService: MovieService) { }
+
     
-  }
+
+    ngOnInit(): void {
+       
+
+    }
+
+
+}
 

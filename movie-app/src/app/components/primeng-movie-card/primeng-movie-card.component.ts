@@ -6,6 +6,7 @@ import { TimeFormatPipe } from '../../pipes/time-format/time-format.pipe';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RateFormatPipe } from "../../pipes/rate-format/rate-format.pipe";
 import { MovieService } from '../../servises/movie.service';
+import { Movie } from '../../models/movie.model';
 @Component({
   selector: 'app-primeng-movie-card',
   standalone: true,
@@ -35,7 +36,7 @@ export class PrimengMovieCardComponent implements OnInit {
     if (this.router.snapshot.routeConfig?.path === 'favorite' || this.router.snapshot.routeConfig?.path === 'bookmark') this.buttonSwich = true
   }
 
-  addMovieToFavorite(mov: any) {
+  addMovieToFavorite(mov: Movie) {
     if (!this.favoriteIsActive) {
       this.movieService.setMovieToFavorites(mov)
       this.movieService.setMovieIdToFavorites(mov.id)

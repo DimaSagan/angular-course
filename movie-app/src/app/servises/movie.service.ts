@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { nowPlayingMovies, popularMovies, topRatedMovies, upcomingMovies } from '../../assets/mock-data/mock-data2';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { MovieApiModel, MovieApiModelWithDate } from '../models/movie.model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Movie, MovieApiModel, MovieApiModelWithDate } from '../models/movie.model';
 import { MovieDetailsApiModel } from '../models/movie-details.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-
+  
   public favoriteListIds = new Set<number>()
   public bookmarksListIds = new Set<number>()
   public favoriteList: any[] = []
   public bookmarksList: any[] = []
-
- 
+  public favoriteListSubject = new BehaviorSubject<Movie[]>(this.favoriteList)
+  public bookmarksListSubject = new BehaviorSubject<Movie[]>(this.bookmarksList)
 
   apiKey: string = '?api_key=cf0314e5a3517d9563326a898c21a65f'
   apiToken: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZjAzMTRlNWEzNTE3ZDk1NjMzMjZhODk4YzIxYTY1ZiIsIm5iZiI6MTcyMDAxMzI5Mi43MTAxMDcsInN1YiI6IjY2ODU0ZWMwYzZkMzM5ZTM4MTFiY2Q3NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hHWpf0A8TNT6IQmhE1Qr25W3U5z5n-m3eBM0OiqGNXE'
@@ -27,19 +26,19 @@ export class MovieService {
 
 
   getNowPlayingMovies(): Observable<MovieApiModelWithDate> {
-    return this.httpClient.get<MovieApiModelWithDate>(`${this.baseUrl}/now_playing${this.apiKey}`)
+    return this.httpClient.get<MovieApiModelWithDate>(`${this.baseUrl}/now_playing${this.apiKey}&page=2`)
   }
 
   getPopularMovies(): Observable<MovieApiModel> {
     return this.httpClient.get<MovieApiModel>(`${this.baseUrl}/popular${this.apiKey}`)
   }
-  getTopRatedMovies(): Observable<MovieApiModel> { 
+  getTopRatedMovies(): Observable<MovieApiModel> {
     return this.httpClient.get<MovieApiModel>(`${this.baseUrl}/top_rated${this.apiKey}`)
   }
-  getUpcomingMovies(): Observable<MovieApiModelWithDate> { 
+  getUpcomingMovies(): Observable<MovieApiModelWithDate> {
     return this.httpClient.get<MovieApiModelWithDate>(`${this.baseUrl}/upcoming${this.apiKey}`)
   }
-  getMovieById(id: string) : Observable<MovieDetailsApiModel>{
+  getMovieById(id: string): Observable<MovieDetailsApiModel> {
     return this.httpClient.get<MovieDetailsApiModel>(`${this.baseUrl}/${id}${this.apiKey}`)
   }
 
@@ -56,8 +55,9 @@ export class MovieService {
     return this.bookmarksList
   }
 
-  setMovieToFavorites(movie: any) {
-    if (!this.favoriteList.includes(movie)) this.favoriteList.push(movie)
+  setMovieToFavorites(movie: Movie) {
+    if (!this.favoriteList.includes(movie)) { this.favoriteList.push(movie) }
+    this.favoriteListSubject.next(this.favoriteList)
   }
   setMovieIdToFavorites(movieId: number) {
     this.favoriteListIds.add(movieId)
@@ -67,6 +67,7 @@ export class MovieService {
   }
   setMovieToBookmarks(movie: any) {
     if (!this.bookmarksListIds.has(movie.id)) this.bookmarksList.push(movie)
+    this.bookmarksListSubject.next(this.bookmarksList)
   }
   deleteMovieOfList(list: any, movie: any) {
     const index = list.findIndex((mov: any) => mov.id === movie.id);
@@ -77,4 +78,5 @@ export class MovieService {
   deleteIdOfList(list: Set<number>, movieId: number) {
     list.delete(movieId)
   }
+
 }

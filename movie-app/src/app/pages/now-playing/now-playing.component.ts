@@ -19,7 +19,6 @@ export class NowPlayingComponent implements OnInit {
   ngOnInit(): void {
     this.movieService.getNowPlayingMovies().subscribe(movies => {
      this.nowPlayingMovies=movies.results
-      // console.log(movies)
     })
   }
 }
