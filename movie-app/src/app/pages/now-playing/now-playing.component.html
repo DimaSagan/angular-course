@@ -1,5 +1,7 @@
 <div class="content">
-    @for (movie of nowPlayingMovies; track movie.id) {
-    <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
-    }
+  <!-- @if((nowPlayingMovies|async); as movies){ -->
+  @for (movie of nowPlayingMovies; track movie.id) {
+  <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
+  }
+  <!-- } -->
 </div>
