@@ -1,7 +1,10 @@
-<div class="content">
-  <!-- @if((nowPlayingMovies|async); as movies){ -->
-  @for (movie of nowPlayingMovies; track movie.id) {
-  <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
-  }
-  <!-- } -->
-</div>
+
+  <div class="header">
+    <h1>Now playing</h1>
+    <app-sort-bar (sortByRating)="sortByRating()" (sortByTitle)="sortByTitle()"></app-sort-bar>
+  </div>
+  <div class="content">
+    @for (movie of nowPlayingMovies; track movie.id) {
+    <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
+    }
+  </div>

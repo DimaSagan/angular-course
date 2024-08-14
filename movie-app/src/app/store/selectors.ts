@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { MovieState } from "./state";
-import { state } from "@angular/animations";
 
 export const selectState = createFeatureSelector<MovieState>('movie')
 
@@ -21,3 +20,11 @@ export const selectFavoriteMoviesIds = createSelector(selectState, state => stat
 export const selectWatchlistIds = createSelector(selectState, state=> state.watchlist?.results.map(movie=> movie.id)||[])
 
 export const selectMovieDeatailsPage = createSelector(selectState, state => state.movieDetailsPage)
+
+export const selectedUserDetails = createSelector(selectState, state => state.userDetails)
+
+export const selectedLoginFailure = createSelector(selectState, state => state.errorLogin)
+
+export const selectedSearchResult = createSelector(selectState, state => state.searchResult)
+
+export const selectedUserSubscription = createSelector(selectState, state => state.userSubscription)

@@ -11,6 +11,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MovieReducer } from './store/reducer';
 import { MovieEffects } from './store/effects';
+// import { LoaderService } from './servises/loader.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore({movie: MovieReducer}),
     provideEffects([MovieEffects]),
+    // LoaderService,
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ]
 };

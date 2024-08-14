@@ -1,9 +1,27 @@
 <div class="header">
-    <div class="header__logo pi pi-box">
-        <span>BingeBox</span>
-    </div>
+    <a [routerLink]="'/'">
+        <div class="header__logo pi pi-box">
+            <span>BingeBox</span>
+        </div>
+    </a>
     <div class="header__action">
         <a [routerLink]="'favorite'" class="header__action-favorites pi pi-heart-fill"><span>Favorites</span></a>
         <a [routerLink]="'watchlist'" class="header__action-bookmarks pi pi-bookmark-fill"><span>Watchlist</span></a>
+        <div class="header__search" appClickOutside (clickOutside)="clearSearchResults()">
+            <form class="header__search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                <input type="text" id="search" class="header__search-item" placeholder="Search" formControlName="searchItem">
+                <button type="submit" class="header__search-button"><i class="pi pi-search"></i></button>
+            </form>
+            @if (searchResults) {
+            <div class="header__search-results results-search">
+                <ul class="results-search__list">
+                    @for (item of searchResults; track item.id) {
+                    <li class="results-search__item"><a [routerLink]="['/movie', item.id]">{{item?.title}}</a></li>
+                }
+                </ul>
+            </div>
+        }
+        </div>
     </div>
+    
 </div>

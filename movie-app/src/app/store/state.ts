@@ -1,5 +1,7 @@
 import { MovieDetailsApiModel } from "../models/movie-details.model";
 import { Movie, MovieApiModel } from "../models/movie.model";
+import { UserDetails } from "../models/user.model";
+import { UserSubscription } from "../models/userSubscription.model";
 
 export interface MovieState {
     movies: MovieApiModel | null
@@ -10,7 +12,11 @@ export interface MovieState {
     favorite: MovieApiModel | null
     watchlist: MovieApiModel | null
     selectedMovies: Movie | null
-    movieDetailsPage: MovieDetailsApiModel|null
+    movieDetailsPage: MovieDetailsApiModel | null
+    userDetails: UserDetails | null
+    errorLogin?: string | null
+    searchResult?: MovieApiModel | null
+    userSubscription?: UserSubscription | null
 }
 
 export const initialState: MovieState = {
@@ -22,6 +28,9 @@ export const initialState: MovieState = {
     favorite: null,
     watchlist: null,
     selectedMovies: null,
-    movieDetailsPage: null
-
+    movieDetailsPage: null,
+    userDetails: null,
+    errorLogin: undefined,
+    searchResult: undefined,
+    userSubscription: undefined
 }

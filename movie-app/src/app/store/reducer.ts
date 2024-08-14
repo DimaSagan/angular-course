@@ -52,6 +52,47 @@ export const MovieReducer = createReducer(
       error: error
       
     }
+  }),
+  // login 
+  on(MovieActions.setUserDetailsSuccess, (state, { userDetails}) => {
+    return {
+      ...state,
+      userDetails: userDetails,
+      errorLogin: undefined
+    }
+  }),
+
+  on(MovieActions.setUserDetailsFailure, (state, {errorLogin}) => {
+    return {
+      ...state,
+      userDetails: null,
+      errorLogin: errorLogin.error.status_message
+    }
+  }),
+
+  // search
+  on(MovieActions.searchMovieSuccess, (state, { searchResult }) => {
+    return {
+      ...state,
+      // searchResult:null,
+      searchResult:searchResult
+    }
+  }),
+
+  // UserSubscription
+  on(MovieActions.setUserSubscriptionSucceess, (state, {userSubscriptionDetails }) => {
+    return {
+      ...state,
+      userSubscription:userSubscriptionDetails
+    }
+  }),
+
+  // unsubscribe
+  on(MovieActions.unsubscribeSucceess, (state, {unsubscribe}) => {
+    return {
+      ...state,
+      userSubscription:unsubscribe
+    }
   })
   
 )

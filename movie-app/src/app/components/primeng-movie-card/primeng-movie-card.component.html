@@ -1,30 +1,18 @@
 <p-card styleClass="card">
     <ng-template pTemplate="header">
         <a [routerLink]="['/movie', mov.id]">
-            <img [alt]="mov.title" src="https://image.tmdb.org/t/p/w500/{{mov.backdrop_path}}" />
+            <img [alt]="mov.title" src="https://image.tmdb.org/t/p/w500/{{mov.poster_path}}" />
         </a>
-        <div class="card__description description">
-            <p class="description__movie-description">{{mov.overview}}</p>
-            <p><span>Original language:</span>{{mov.original_language}}</p>
-            <p><span>Rate:</span>{{mov.vote_average | rateFormat}}</p>
-            <p><span>Date:</span>{{mov.release_date}}</p>
-            @if(mov.runtime){ <p><span>Runtime:</span>{{mov.runtime| timeFormat}}</p>}
-            @if(mov.seasons){<p><span>Seasons:</span>{{mov.seasons}}</p>}
-        </div>
         <div class="card__action">
             @if(!buttonSwich){
-                <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" [class.active]="favoriteIsActive"/>
-                <p-button (click)="addMovieToWatchlist(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" [class.active]="watchListIsActive"/>
+            <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" [class.active]="favoriteIsActive" />
+            <p-button (click)="addMovieToWatchlist(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full"
+                [class.active]="watchListIsActive" />
             }
             @if(buttonSwich){
             <p-button (click)="deleteMovieFromlist(mov)" icon="pi pi-trash" />
             }
         </div>
-
-    </ng-template>
-
-    <h2 class="card__title">{{mov.title}}</h2>
-
-    <ng-template pTemplate="footer">
+        <div class="card__rate">{{mov.vote_average | rateFormat}}</div>
     </ng-template>
 </p-card>

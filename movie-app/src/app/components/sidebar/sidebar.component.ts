@@ -11,7 +11,7 @@ import { RouterLinkActive, RouterModule } from '@angular/router';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  isActive: boolean = false
+  isActive: boolean = true
   toggleActive() {
     this.isActive = !this.isActive
   }

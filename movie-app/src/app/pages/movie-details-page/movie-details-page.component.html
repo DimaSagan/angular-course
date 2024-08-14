@@ -2,7 +2,7 @@
 <div class="details">
     <div class="details__header header">
         <div class="header__img">
-            <img [src]=imgPath+(movie$|async)?.poster_path alt="">
+            <img [src]=imgPath+(movie$|async)?.poster_path alt="poster">
         </div>
         <div class="header__info">
             <p><span>Title: </span>{{(movie$|async)?.title}}</p>
@@ -15,4 +15,7 @@
     <div class="details__body body">
         
     </div>
+</div>
+<div class="details-bg">
+    <img [src]=bgPath+(movie$|async)?.backdrop_path alt="poster">
 </div>

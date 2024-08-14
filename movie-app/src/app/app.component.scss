@@ -28,7 +28,9 @@
 }
 .page {
     // .page__container
-
+    &:not(:last-child){
+    margin-bottom: toRem(100);
+    }
     &__container {
         display: flex;
         flex-direction: column;
@@ -61,4 +63,8 @@
         padding-left: 345px;
         transition: padding-left 1s;
     }
+}
+
+footer{
+    position: relative;
 }
