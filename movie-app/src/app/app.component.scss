@@ -42,7 +42,7 @@
         position: fixed;
         width: 300px;
         height: 100%;
-        top: toRem(50);       // поправить на высоту хедера <====
+        top: toRem(50);      
         left: 0;
         transition: 1s;
         &:has(.active){

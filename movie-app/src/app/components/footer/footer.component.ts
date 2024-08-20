@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UserSubsribe } from '../../servises/UserSubcribe.servisce';
+import { UserSubsribe } from '../../servises/userSubcribe.servisce';
 
 @Component({
   selector: 'app-footer',
@@ -11,9 +11,9 @@ import { UserSubsribe } from '../../servises/UserSubcribe.servisce';
 })
 export class FooterComponent {
 
-  constructor(private userSubsribe:UserSubsribe){}
+  constructor(private userSubsribeservice:UserSubsribe){}
 
   subscribe() {
-    this.userSubsribe.showPopup()
+    this.userSubsribeservice.showPopup()
   }
 }

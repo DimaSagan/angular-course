@@ -16,7 +16,7 @@
             <div class="header__search-results results-search">
                 <ul class="results-search__list">
                     @for (item of searchResults; track item.id) {
-                    <li class="results-search__item"><a [routerLink]="['/movie', item.id]">{{item?.title}}</a></li>
+                    <li class="results-search__item"><a [routerLink]="['/movie', item.id]" (click)="clearSearchResults()">{{item?.title}}</a></li>
                 }
                 </ul>
             </div>

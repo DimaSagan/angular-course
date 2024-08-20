@@ -17,7 +17,7 @@ export const MovieReducer = createReducer(
   on(MovieActions.loadMoviesFailure, (state, {movieList, error }) => {
     return {
       ...state,
-      [movieList]: null,
+      [movieList]: [],
       error: error
     };
   }),

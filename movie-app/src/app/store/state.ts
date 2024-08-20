@@ -5,10 +5,10 @@ import { UserSubscription } from "../models/userSubscription.model";
 
 export interface MovieState {
     movies: MovieApiModel | null
-    now_playing: MovieApiModel | null
-    popular: MovieApiModel | null
-    top_rated: MovieApiModel | null
-    upcoming: MovieApiModel | null
+    now_playing: Movie[]| null
+    popular: Movie[]| null
+    top_rated: Movie[]| null
+    upcoming: Movie[]| null
     favorite: MovieApiModel | null
     watchlist: MovieApiModel | null
     selectedMovies: Movie | null

@@ -4,9 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Store } from '@ngrx/store';
 import { CalendarModule } from 'primeng/calendar';
 import { setUserSubscription, unsubscribe } from '../../store/actions';
-import { UserSubscription } from '../../models/userSubscription.model';
-import { UserSubsribe } from '../../servises/UserSubcribe.servisce';
-import { Observable } from 'rxjs';
+import { UserSubsribe } from '../../servises/userSubcribe.servisce';
 import { selectedUserSubscription } from '../../store/selectors';
 @Component({
   selector: 'app-subscribe-popup',

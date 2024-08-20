@@ -28,7 +28,7 @@ export class MovieEffects {
                     map(movies =>
                         loadMoviesSuccess({
                             movieList: listName,
-                            movies: movies
+                            movies: movies.results
                         })
                     ),
                     catchError(error =>

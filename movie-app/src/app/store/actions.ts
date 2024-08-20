@@ -9,7 +9,8 @@ export const loadMovies = createAction('[Movie] Load Movies',
 )
 
 export const loadMoviesSuccess = createAction('[Movie] Load Movies Success',
-    props<{movieList: string, movies: MovieApiModel | null }>()
+    // props<{movieList: string, movies: MovieApiModel }>()
+    props<{movieList: string, movies: Movie[] }>()
 )
 
 export const loadMoviesFailure = createAction('[Movie] Load Moviess Failure',
