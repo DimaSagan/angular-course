@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from "./components/header/header.component";
+import { MovieService } from './servises/movie.service';
+import { from, Observable, of, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +16,18 @@ import { HeaderComponent } from "./components/header/header.component";
         HeaderComponent
     ]
 })
-export class AppComponent {
-  title = 'angular_course';
+export class AppComponent implements OnInit {
+    title = 'angular_course';
+
+    constructor(private movieService: MovieService) { }
+
+    
+
+    ngOnInit(): void {
+       
+
+    }
+
+
 }
+
