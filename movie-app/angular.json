@@ -44,8 +44,8 @@
           },
           "configurations": {
             "production": {
-              "outputPath": "docs", 
-              "baseHref": "/angular-course/", 
+              "outputPath": "docs",
+              "baseHref": "/angular-course/",
               "budgets": [
                 {
                   "type": "initial",
