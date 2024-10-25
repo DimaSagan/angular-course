@@ -7,6 +7,11 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RateFormatPipe } from "../../pipes/rate-format/rate-format.pipe";
 import { MovieService } from '../../servises/movie.service';
 import { Movie } from '../../models/movie.model';
+import { Store } from '@ngrx/store';
+import { loadUserMovieLists, setMovieToUserList } from '../../store/actions';
+import { selectFavoriteMoviesIds, selectWatchlistIds } from '../../store/selectors';
+import { Observable, takeUntil } from 'rxjs';
+import { ClearObservable } from '../../directives/clear-observable';
 @Component({
   selector: 'app-primeng-movie-card',
   standalone: true,
@@ -21,54 +26,44 @@ import { Movie } from '../../models/movie.model';
     RateFormatPipe
   ]
 })
-export class PrimengMovieCardComponent implements OnInit {
+export class PrimengMovieCardComponent extends ClearObservable implements OnInit {
   @Input() mov: any
   public buttonSwich: boolean = false
   favoriteIsActive: boolean = false;
-  bookmarkIsActive: boolean = false;
-  constructor(private router: ActivatedRoute, private movieService: MovieService) { }
+  watchListIsActive: boolean = false;
+
+  favoriteMovieIds$?: Observable<number[]>
+  watchlistMovieIds$?: Observable<number[]>
+
+  constructor(private router: ActivatedRoute, private movieService: MovieService, private store: Store) {
+    super()
+  }
   ngOnInit(): void {
-    const favoriteListIds = this.movieService.getFavoriteListIds()
-    const bookmarkListIds = this.movieService.getBookmarksListIds()
-    const movieId: number = this.mov.id
-    this.favoriteIsActive = favoriteListIds.has(movieId)
-    this.bookmarkIsActive = bookmarkListIds.has(movieId)
-    if (this.router.snapshot.routeConfig?.path === 'favorite' || this.router.snapshot.routeConfig?.path === 'bookmark') this.buttonSwich = true
+    this.favoriteMovieIds$ = this.store.select(selectFavoriteMoviesIds)
+    this.favoriteMovieIds$.pipe(takeUntil(this.destroy$)).subscribe(ids => {
+      this.favoriteIsActive = ids.includes(this.mov.id)
+    })
+    this.watchlistMovieIds$ = this.store.select(selectWatchlistIds)
+    this.watchlistMovieIds$.pipe(takeUntil(this.destroy$)).subscribe(ids => {
+      this.watchListIsActive = ids.includes(this.mov.id)
+    })
+    if (this.router.snapshot.routeConfig?.path === 'favorite' || this.router.snapshot.routeConfig?.path === 'watchlist') this.buttonSwich = true
   }
 
   addMovieToFavorite(mov: Movie) {
-    if (!this.favoriteIsActive) {
-      this.movieService.setMovieToFavorites(mov)
-      this.movieService.setMovieIdToFavorites(mov.id)
-    } else {
-      this.movieService.deleteMovieOfList(this.movieService.getFavoriteList(), mov)
-      this.movieService.deleteIdOfList(this.movieService.getFavoriteListIds(),mov.id)
-     
-    }
-    this.favoriteIsActive = !this.favoriteIsActive
+    let action = !this.favoriteIsActive
+    this.store.dispatch(setMovieToUserList({ listName: 'favorite', movieId: mov.id, action }))
   }
-  addMovieToBookmarks(mov: any) {
-    if(!this.bookmarkIsActive){
-      this.movieService.setMovieToBookmarks(mov)
-      this.movieService.setMovieIdToBookmarks(mov.id)
-    } else {
-      this.movieService.deleteMovieOfList(this.movieService.getBookmarksList(), mov)
-      this.movieService.deleteIdOfList(this.movieService.getBookmarksListIds(),mov.id)
-    }
-    this.bookmarkIsActive = !this.bookmarkIsActive
+  addMovieToWatchlist(mov: Movie) {
+    let action = !this.watchListIsActive
+    this.store.dispatch(setMovieToUserList({ listName: 'watchlist', movieId: mov.id, action }))
   }
 
 
   deleteMovieFromlist(mov: any) {
-    let movieList: any
-    let idsList: any
-    this.router.snapshot.routeConfig?.path === 'favorite' ? movieList = this.movieService.getFavoriteList() : movieList = this.movieService.getBookmarksList()
-    this.router.snapshot.routeConfig?.path === 'favorite' ? idsList = this.movieService.getFavoriteListIds() :  idsList = this.movieService.getBookmarksListIds()
-    
-    this.movieService.deleteMovieOfList(movieList, mov)
-      this.movieService.deleteIdOfList(idsList,mov.id)
+    let listName: string = this.router.snapshot.routeConfig?.path ?? ''
+    let action = false
+    this.store.dispatch(setMovieToUserList({ listName: listName, movieId: mov.id, action }))
   }
-  deleteIdFromList(mov: any) {
-    // this.deleteId.emit(mov)
-  }
+
 }

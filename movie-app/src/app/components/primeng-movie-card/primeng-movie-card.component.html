@@ -14,7 +14,7 @@
         <div class="card__action">
             @if(!buttonSwich){
                 <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" [class.active]="favoriteIsActive"/>
-                <p-button (click)="addMovieToBookmarks(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" [class.active]="bookmarkIsActive"/>
+                <p-button (click)="addMovieToWatchlist(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full" [class.active]="watchListIsActive"/>
             }
             @if(buttonSwich){
             <p-button (click)="deleteMovieFromlist(mov)" icon="pi pi-trash" />

@@ -2,14 +2,14 @@
 <div class="details">
     <div class="details__header header">
         <div class="header__img">
-            <img src="{{imgPath}}{{movie.poster_path}}" alt="">
+            <img [src]=imgPath+(movie$|async)?.poster_path alt="">
         </div>
         <div class="header__info">
-            <p><span>Title: </span>{{movie.title}}</p>
-            <p><span>Original language: </span>{{movie.original_language}}</p>
-            <p><span>Release: </span>{{movie.release_date}}</p>
-            <p><span>Rate: </span>{{movie.vote_average | rateFormat}}</p>
-            <p>{{movie.overview}}</p>
+            <p><span>Title: </span>{{(movie$|async)?.title}}</p>
+            <p><span>Original language: </span>{{(movie$|async)?.original_language}}</p>
+            <p><span>Release: </span>{{(movie$|async)?.release_date}}</p>
+            <p><span>Rate: </span>{{(movie$|async)?.vote_average}}</p>
+            <p>{{(movie$|async)?.overview}}</p>
         </div>
     </div>
     <div class="details__body body">

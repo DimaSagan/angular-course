@@ -1,8 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
-import { MovieService } from '../../servises/movie.service';
 import { Movie } from '../../models/movie.model';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadUserMovieLists } from '../../store/actions';
+import { ClearObservable } from '../../directives/clear-observable';
+import { selectFavorite } from '../../store/selectors';
 
 @Component({
   selector: 'app-favorites-page',
@@ -11,26 +14,17 @@ import { Subscription } from 'rxjs';
   styleUrl: './favorites-page.component.scss',
   imports: [PrimengMovieCardComponent]
 })
-export class FavoritesPageComponent implements OnInit, OnDestroy {
-  data: Movie[] = []
-  private favoriteListSubscription: Subscription
+export class FavoritesPageComponent extends ClearObservable implements OnInit {
+  favorite?: Movie[] 
   
-  constructor(private movieService: MovieService) {
-    this.favoriteListSubscription = new Subscription()
+  constructor(private store: Store) {
+    super()
   }
   
-  ngOnInit() {
-    this.favoriteListSubscription = this.movieService.favoriteListSubject.subscribe(movies => {
-      this.data = movies
-      console.log('data', this.data)
+  ngOnInit():void {
+    this.store.select(selectFavorite).pipe(takeUntil(this.destroy$)).subscribe(movies => {
+      this.favorite =  movies?.results ?? []
     })
-  }
-
-
-  ngOnDestroy(): void {
-    if (this.favoriteListSubscription) {
-      this.favoriteListSubscription.unsubscribe()
-    }
   }
 }
 

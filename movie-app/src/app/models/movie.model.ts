@@ -16,13 +16,11 @@ export interface Movie {
 }
 
 export interface MovieApiModel {
-    page: number,
+    dates?: Dates
+    page?: number
     results: Movie[]
 }
 interface Dates {
     maximum: string;
     minimum: string;
-}
-export interface MovieApiModelWithDate extends MovieApiModel {
-    dates: Dates
 }
