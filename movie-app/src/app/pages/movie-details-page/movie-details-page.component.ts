@@ -1,12 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RateFormatPipe } from "../../pipes/rate-format/rate-format.pipe";
 import { Store } from '@ngrx/store';
-import { loadMovieDetails } from '../../store/actions';
-import { map, Observable} from 'rxjs';
+import { map, Observable, timer } from 'rxjs';
 import { MovieDetailsApiModel } from '../../models/movie-details.model';
-import { selectMovieDeatailsPage } from '../../store/selectors';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { DateFormatPipe } from "../../pipes/date-format/date-format.pipe";
+import { RateClassPipe } from "../../pipes/rate-class/rate-class.pipe";
+import { CastModel } from '../../models/credits.model';
+import { selectMovieCast, selectMovieDeatailsPage, selectVideoLink } from '../../store/selectors';
+import { VideoPupupComponent } from "../../components/video-pupup/video-pupup.component";
+import { VideoPopupService } from '../../servises/video-popup.service';
+import { TimeFormatPipe } from "../../pipes/time-format/time-format.pipe";
+import { ClearObservable } from '../../directives/clear-observable';
 
 
 @Component({
@@ -14,29 +20,70 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './movie-details-page.component.html',
   styleUrl: './movie-details-page.component.scss',
-  imports: [RateFormatPipe, CommonModule]
+  imports: [RateFormatPipe, CommonModule, DateFormatPipe, RateClassPipe, VideoPupupComponent, TimeFormatPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MovieDetailsPageComponent implements OnInit{
+export class MovieDetailsPageComponent extends ClearObservable implements OnInit, OnDestroy {
 
-  movie$: Observable<MovieDetailsApiModel | null> 
-
+  movie$!: Observable<MovieDetailsApiModel | null>
+  cast$!: Observable<CastModel[]>
+  trailer!: Observable<string | null>
+  load: boolean = false
+  smallScreen: boolean = false
+  bgStatus: any
   imgPath = 'https://image.tmdb.org/t/p/w500'
-  bgPath='https://image.tmdb.org/t/p/original'
+  bgPath = 'https://image.tmdb.org/t/p/original'
 
-  constructor(private route: ActivatedRoute, private store: Store) {
-    this.movie$ = this.store.select(selectMovieDeatailsPage).pipe(
-      map(movie => {
-        if (movie && movie.id === +this.route.snapshot.params['id']) {
-          return movie;
-        }
-        return null;
-      })
-    )
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store,
+    private videoPopupService: VideoPopupService,
+    private cd: ChangeDetectorRef,
+    private viewportScroller: ViewportScroller
+  ) {
+    super()
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id']
-    this.store.dispatch(loadMovieDetails({ id }))
+    // this.viewportScroller.scrollToPosition([0, 0]);
+    this.checkViewportWidth()
+    this.movie$ = this.store.select(selectMovieDeatailsPage)
+    this.cast$ = this.store.select(selectMovieCast).pipe(
+      map(cast => cast ? cast.slice(0, 5) : [])
+    )
+    this.trailer = this.store.select(selectVideoLink)
+
+    this.route.data.subscribe(data => {
+      this.load = false
+      timer(600).subscribe(() => {
+        this.load = data['data'];
+        this.cd.detectChanges();
+      });
+    })
+
+
+
   }
-  
+
+  showPopup() {
+    console.log('show')
+    this.videoPopupService.show()
+  }
+
+  override ngOnDestroy(): void {
+    super.ngOnDestroy()
+    this.videoPopupService.hide()
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkViewportWidth()
+  }
+  checkViewportWidth(): void {
+    this.smallScreen = window.innerWidth < 767.98
+  }
 }
+
+

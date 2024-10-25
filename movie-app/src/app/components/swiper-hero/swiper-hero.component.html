@@ -1,0 +1,46 @@
+
+<div class="swiper">
+    <swiper-container class="my-swiper"
+    (swiperslidenexttransitionend)="upCounterNumber()"
+    (swiperslideprevtransitionend)="downCounterNumber()"
+    space-between="50" 
+   
+    speed="800" 
+    navigation-next-el=".next" 
+    navigation-prev-el=".prev" 
+    slides-per-view="1">
+        
+        @for (movie of movies; track movie.id) {
+        <swiper-slide class="swiper-slide">
+            <div class="swiper-slide__wrapper">
+                <div class="swiper-slide__subscription">
+                    <div class="swiper-slide__subscription-wrapper">
+                        <h2 class="swiper-slide__title">{{movie.title}}</h2>
+                        <a [routerLink]="['/movie',movie.id]" class="swiper-slide__link">Watch Now <i class="pi pi-video"></i></a>
+                        <p class="swiper-slide__overview">{{movie.overview}}</p>
+                    </div>
+                </div>
+                <div class="swiper-slide__img">
+                    <img [src]=backdropPath+movie.backdrop_path alt="poster">
+                </div>
+            </div>
+            
+        </swiper-slide>
+        }
+
+        
+        
+    </swiper-container>
+    <div class="swiper__action">
+        <div class="swiper__action-buttons">
+            <button class="prev"><i class="pi pi-chevron-left"></i></button>
+            <!-- <div class="swiper-button-prev">prev</div> -->
+            <button class="next"><i class="pi pi-chevron-right"></i></button>
+        </div>
+        <div class="swiper__action-counter"> 
+            <span>{{minCouterNumber}}</span> 
+            <span>/</span> 
+            <span>{{maxCouterNumber}}</span>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,5 @@
-@for (movie of favorite; track movie.id) {
-    <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
-    }
+
+<div [ngClass]="{visible: visible}">
+    <app-movie-list [data]="favorite$ | async"></app-movie-list>
+</div>
+

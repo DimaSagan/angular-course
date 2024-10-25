@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, of, Subject, tap } from 'rxjs';
 import { Movie, MovieApiModel } from '../models/movie.model';
 import { MovieDetailsApiModel } from '../models/movie-details.model';
 import { environment } from '../environment/environment';
+import { CreditsModel } from '../models/credits.model';
+import { MovieTrailerModel } from '../models/movie-trailer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +22,43 @@ export class MovieService {
   setSessionId(sessionId: string) {
     this.sessionId = sessionId
   }
-  getMoviesList(listName: string): Observable<MovieApiModel> {
-    return this.httpClient.get<MovieApiModel>(`${environment.apiBaseUrl}/movie/${listName}?api_key=${environment.apiKey}`)
+  getMoviesList(listName: string, pageNumber: number=1): Observable<MovieApiModel> {
+    const params = new HttpParams().set('page', pageNumber) 
+    return this.httpClient.get<MovieApiModel>(`${environment.apiBaseUrl}/movie/${listName}?api_key=${environment.apiKey}`,
+      { params }
+    )
   }
 
   getMovieDetailsPage(id: string): Observable<MovieDetailsApiModel> {
     return this.httpClient.get<MovieDetailsApiModel>(`${environment.apiBaseUrl}/movie/${id}`,
       this.getParams()
+    )
+  }
+  getCredits(id: string): Observable<CreditsModel> {
+    const params = new HttpParams().set('language', 'en-US')
+    const headers = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${environment.readAccesToken}`
+    })
+    return this.httpClient.get<CreditsModel>(`${environment.apiBaseUrl}/movie/${id}/credits`,
+      {
+        params: params,
+        headers: headers
+      }
+    )
+  }
+
+  getMovieTrailer(id: string):Observable<MovieTrailerModel> {
+    const params = new HttpParams().set('language', 'en-US')
+    const headers = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${environment.readAccesToken}`
+    })
+    return this.httpClient.get<MovieTrailerModel>(`${environment.apiBaseUrl}/movie/${id}/videos`,
+      {
+        params: params,
+        headers: headers
+      }
     )
   }
 
@@ -75,7 +107,9 @@ export class MovieService {
       .set('query', title)
       .set('language', 'en-US')
     return this.httpClient.get<MovieApiModel>(`${environment.apiBaseUrl}/search/movie`,
-      { headers: headers, params:params}
+      { headers: headers, params: params }
     )
   }
+
+ 
 }

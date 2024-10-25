@@ -1,27 +1,61 @@
 <div class="header">
-    <a [routerLink]="'/'">
-        <div class="header__logo pi pi-box">
-            <span>BingeBox</span>
-        </div>
-    </a>
-    <div class="header__action">
-        <a [routerLink]="'favorite'" class="header__action-favorites pi pi-heart-fill"><span>Favorites</span></a>
-        <a [routerLink]="'watchlist'" class="header__action-bookmarks pi pi-bookmark-fill"><span>Watchlist</span></a>
-        <div class="header__search" appClickOutside (clickOutside)="clearSearchResults()">
-            <form class="header__search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                <input type="text" id="search" class="header__search-item" placeholder="Search" formControlName="searchItem">
-                <button type="submit" class="header__search-button"><i class="pi pi-search"></i></button>
-            </form>
-            @if (searchResults) {
-            <div class="header__search-results results-search">
-                <ul class="results-search__list">
-                    @for (item of searchResults; track item.id) {
-                    <li class="results-search__item"><a [routerLink]="['/movie', item.id]" (click)="clearSearchResults()">{{item?.title}}</a></li>
-                }
-                </ul>
+
+    <div class="header__container">
+        <a [routerLink]="'/'">
+            <div class="header__logo">
+                <i class="pi pi-box"></i>
+                <span>BingeBox</span>
             </div>
-        }
+        </a>
+
+        <div class="header__action">
+
+            <a [routerLink]="'favorite'" class="header__action-favorites"><i class="pi pi-heart-fill"></i><span>Favorites</span></a>
+            <a [routerLink]="'watchlist'" class="header__action-bookmarks"><i class="pi pi-bookmark-fill"></i><span>Watchlist</span></a>
+
+            <div class="header__search" appClickOutside (clickOutside)="clearSearchResults()">
+
+                <form class="header__search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+                    <input type="text" id="search" class="header__search-item" placeholder="Search" formControlName="searchItem">
+                    <button type="submit" class="header__search-button"><i class="pi pi-search"></i></button>
+                </form>
+
+                @if (searchResults) {
+
+                <div class="header__search-results results-search">
+                    <ul class="results-search__list">
+                        @for (item of searchResults; track item.id) {
+                        <li class="results-search__item"><a [routerLink]="['/movie', item.id]" (click)="clearSearchResults()">{{item?.title}}</a></li>
+                        }
+                    </ul>
+                </div>
+
+                }
+            </div>
+
+        </div>
+        <div class="header__login">
+            @if(userName){
+                <button (click)="toggleMenu()"><i class="pi pi-cog"></i></button>
+            }@else{
+                <button (click)="loginUser()"><i class="pi pi-sign-in"></i></button>
+            }
+            
+
+            
+        </div>
+
+        <div class="header__user-menu menu-user" [ngClass]="{'show':showMenu}">
+            <p class="menu-user__name"><i class="pi pi-user"></i> {{userName}}</p>
+            <ul>
+                <li><a href="#">settings</a></li>
+                <li><a href="#">news</a></li>
+                <li><a href="#">blog</a></li>
+            </ul>
+            <div>
+                <button (click)="logOut()">Logout <i class="pi pi-sign-out"></i></button>
+            </div>
         </div>
     </div>
-    
+
 </div>

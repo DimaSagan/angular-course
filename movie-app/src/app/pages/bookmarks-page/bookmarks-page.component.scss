@@ -1,6 +1,7 @@
-:host{
-    padding-top: 50px;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 15px;
+div{
+    opacity: 0;
+    transition: opacity 0.5s 0.1s;
+    &.visible{
+        opacity: 1;
+    }
 }

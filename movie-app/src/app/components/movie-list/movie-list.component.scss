@@ -1,16 +1,91 @@
-.header{
+@import "functions";
+.header {
+    width: 100%;
     display: flex;
-    padding: 20px 76px 20px 5px;
+    padding: toRem(20) 0;
     justify-content: space-between;
-    h1{
+    h1 {
+        color: #fff;
         font-size: 25px;
         font-weight: 500;
         letter-spacing: 1px;
         text-transform: capitalize;
+
+        flex-grow: 1;
+        display: flex;
+        text-wrap: nowrap;
+        align-items: center;
+        gap: toRem(5);
+        &::after{
+            content: '';
+            width: 100%;
+            height: 1.5px;
+            background: rgb(255,252,252);
+background: linear-gradient(90deg, rgba(255,252,252,0.9220281862745098) 33%, rgba(255,255,255,0) 100%);
+            display: block;
+            
+        }
     }
 }
-.content{
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 15px;
+.content {
+    // display: flex;
+    // flex-wrap: wrap;
+    // row-gap: 15px;
+    width: 100%;
+    display: grid;
+    gap: toRem(10);
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    @media (min-width: toEm($tablet)) {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: toRem(15);
+    }
+    // justify-content: center;
+    grid-auto-rows: 1fr;
+    &:not(:last-child) {
+        margin-bottom: toEm(10);
+    }
 }
+
+.show-more-button {
+    width: 100%;
+    position: relative;
+    background: rgba(7, 7, 7, 0);
+    padding: toRem(40) 0;
+    transition: 0.5s;
+    span {
+        text-transform: capitalize;
+        display: flex;
+        justify-content: center;
+        gap: toRem(5);
+        align-items: center;
+        flex-shrink: 1;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        transition: 0.5s ease;
+        font-size: toRem(20);
+        font-weight: 500;
+        i{
+            font-size: toRem(20); 
+            transition: 0.5s ease-in;
+        }
+    }
+    &:hover{
+        span {
+            // color: orange;
+            transform: scale(1.1);
+        }
+        i{
+            transform: rotate(360deg);
+        }
+    }
+    &:active {
+        // background: rgba(7, 7, 7, 0.268);
+        span {
+            // color: rgb(255, 115, 0);
+            transform: scale(1.05);
+        }
+    }
+}
+
+
