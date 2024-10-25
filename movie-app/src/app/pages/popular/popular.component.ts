@@ -7,6 +7,8 @@ import { selectPopular } from '../../store/selectors';
 import { SortBarComponent } from "../../components/sort-bar/sort-bar.component";
 import { MovieListComponent } from "../../components/movie-list/movie-list.component";
 import { CommonModule } from '@angular/common';
+import { AuthFireBase } from '../../servises/autnFireBase.service';
+import { PlaylistFireBaseServise } from '../../servises/playlist-service-fire-base.service';
 @Component({
   selector: 'app-popular',
   standalone: true,
@@ -19,8 +21,9 @@ export class PopularComponent extends ClearObservable implements OnInit {
   moviesResult$: Observable<Movie[]>
 
   constructor(
-    private store: Store,) {
-
+    private store: Store,
+    ) {
+  
     super()
 
     this.moviesResult$ = this.store.select(selectPopular).pipe(
@@ -29,6 +32,9 @@ export class PopularComponent extends ClearObservable implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.googleTestAuth.checkUser()
   }
 
+  
+  
 }

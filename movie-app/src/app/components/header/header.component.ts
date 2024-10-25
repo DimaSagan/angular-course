@@ -4,9 +4,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { filter, skip, takeUntil } from 'rxjs';
 import { ClearObservable } from '../../directives/clear-observable';
 import { Store } from '@ngrx/store';
-import { searchMovie } from '../../store/actions';
+import { checkUserLogin, searchMovie, userLogOut } from '../../store/actions';
 import { selectedSearchResult } from '../../store/selectors';
 import { ClickOutsideDirective } from '../../directives/clickOutsade';
+import { PopupService } from '../../servises/popup.service';
+import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +17,8 @@ import { ClickOutsideDirective } from '../../directives/clickOutsade';
   imports: [
     RouterModule,
     ReactiveFormsModule,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    CommonModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -22,13 +26,19 @@ import { ClickOutsideDirective } from '../../directives/clickOutsade';
 export class HeaderComponent extends ClearObservable implements OnInit {
   searchForm!: FormGroup
   searchResults!: any
+  userName!: string | null
+  showMenu:boolean=false
+  // userId:string
   constructor(
     private store: Store,
     private activatedRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private login: PopupService,
+    private auth: Auth
   ) { super() }
 
   ngOnInit(): void {
+    
     this.searchForm = new FormGroup({
       searchItem: new FormControl('', Validators.minLength(2))
     })
@@ -45,6 +55,15 @@ export class HeaderComponent extends ClearObservable implements OnInit {
           this.searchResults = searchResults?.results
         })
     })
+    
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.userName = user.displayName
+        console.log('User:', user);
+        console.log(this.userName)
+      }
+    })
+    
   }
 
   onSubmit() {
@@ -56,6 +75,23 @@ export class HeaderComponent extends ClearObservable implements OnInit {
   }
 
   clearSearchResults(): void {
+    
+    // this.searchForm.reset()
+    // this.searchForm.patchValue({ searchItem: '' })
     this.searchResults = false;
+  }
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu
+  }
+
+  loginUser() {
+    this.login.showPopup('/')
+  }
+
+  logOut() {
+    this.store.dispatch(userLogOut())
+    this.userName = null
+    this.toggleMenu()
   }
 }

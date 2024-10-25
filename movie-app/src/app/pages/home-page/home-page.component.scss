@@ -1,0 +1,195 @@
+@import "functions";
+@keyframes animationBg {
+    0% {
+        background-position-x: 0%;
+    }
+    100% {
+        background-position-x: 200%;
+    }
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        
+    }
+    50% {
+        transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.header {
+    overflow: clip;
+    position: relative;
+    // top: -100%;
+    min-height: calc(100vh - 50px);
+    margin-bottom: 80px;
+    @media(max-width: toRem($mobile)){
+            margin: 0 toRem(-15);;
+           }
+    &__wrapper {
+        position: sticky;
+        top: 50%;
+        left: 0;
+        padding-left: toRem(20);
+        padding-bottom: toRem(50);
+        transform: translateX(-100%);
+        transition: transform 1s 0.3s ease-in-out;
+        // background-color: black;
+        &:has(+.header__bg.gray){
+            transform: translateX(0%);
+        }
+    }
+
+    h1,
+    h2 {
+        color: transparent;
+        // text-shadow: toRem(3) toRem(3) toRem(5) black;
+        background: linear-gradient(
+            138deg,
+            rgba(254, 255, 5, 1) 12%,
+            rgb(113, 230, 41) 29%,
+            rgb(51, 255, 221) 44%,
+            rgb(185, 100, 255) 66%,
+            rgba(254, 255, 5, 1) 88%
+        );
+        background-clip: text;
+        
+    }
+    h1 {
+        display: inline-block;
+        // font-size: toRem(90);
+        font-size: clamp(2.5rem, 1.719rem + 3.91vw, 5.625rem);
+        font-weight: 600;
+        line-height: 1.27;
+        background-size: 200%;
+        animation-name: animationBg;
+        animation-duration: 12s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+    h2 {
+        // font-size: toRem(30);
+        font-size: clamp(1.25rem, 1.094rem + 0.78vw, 1.875rem);
+        font-weight: 500;
+        padding-left: toRem(5);
+        background-size: 40%;
+    }
+    &__bg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        z-index: -1;
+        filter: grayscale(0%);
+        transition: filter 0.8s;
+        &::after{
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;    
+        background: radial-gradient(circle, rgba(55, 55, 55, 0) 0%, rgb(17, 17, 17) 100%);
+        opacity: 0;
+        transition: opacity 0.8s;
+        }
+        &.gray{
+            filter: grayscale(100%);
+            &::after{
+                opacity: 1;
+            }
+           +.header__action{
+                bottom: toRem(20);
+            }
+        }
+    }
+   
+    .bg-wrapper{
+        width: 350px;
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.4s, filter 0.4s 1.5s;
+        img{
+            width: 100%;
+            height: 100%;
+            box-shadow: toRem(5) toRem(5) toRem(16) rgba(0, 0, 0, 0.492);
+        }
+        &.visible{
+            opacity: 1;
+        }
+    }
+    &__action {
+        position: absolute;
+        left: 50%;
+        // bottom: toRem(20);
+        bottom: toRem(-20);
+        transition: bottom 0.5s 1.3s;
+        transform: translateX(-50%);
+        a {
+            color: white;
+            text-transform: uppercase;
+            font-size: toRem(18);
+            font-weight: 500;
+            // text-shadow: toRem(2) toRem(2) toRem(5) rgb(218, 218, 218), toRem(1) toRem(1) toRem(5) rgba(65, 176, 245, 0.973);
+            animation-name: pulse;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            &:hover{
+                animation-play-state: paused;
+            }
+        }
+    }
+}
+.home-page {
+    // .home-page__section
+    &__header {
+    }
+
+    &__hero {
+        padding-top: toRem(80);
+        opacity: 0;
+        h3{
+            text-transform: uppercase;
+            color: #fff;
+            font-size: toRem(30);
+            margin-bottom: toRem(20);
+            font-weight: 500;
+        }
+        &:not(:last-child) {
+            margin-bottom: toRem(50);
+        }
+    }
+    &__section {
+        position: relative;
+        border-radius: 0 toRem(22);
+        opacity: 0;
+        transition: 0.5s;
+        &.in-view{
+            opacity: 1;
+        }
+        div {
+        }
+        h2 {
+            color: #e8e8e8;
+            font-weight: 500;
+            text-transform: capitalize;
+            font-size: toRem(45);
+            z-index: 2;
+            &:not(:last-child) {
+                margin-bottom: toRem(15);
+            }
+            a {
+                transition: all 0.5s;
+                transform-origin: 0 center;
+                &:hover {
+                    transform: scale(1.04);
+                }
+            }
+        }
+        &:not(:last-child) {
+            margin-bottom: toEm(50);
+        }
+    }
+}

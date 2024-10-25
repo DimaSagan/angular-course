@@ -2,10 +2,6 @@
 :host {
     cursor: pointer;
     ::ng-deep {
-        padding: 0 toRem(7.5);
-        flex: 0 1 16%;
-        min-width: toRem(200);
-        max-width: toRem(450);
         .p-card-content {
             &:not(:last-child) {
                 margin-bottom: toRem(3);
@@ -23,13 +19,23 @@
             transition: 0.3s;
             &:hover {
                 transform: scale(1.02);
+                :has(swiper-slide){
+                    transform: scale(1);
+                }
             }
-
-            img {
+            a{
                 width: 100%;
                 height: 100%;
+                // display: block;
+            }
+            img {
+                width: 100%;
                 aspect-ratio: 273/ 410;
                 object-fit: cover;
+            }
+
+            .img-false {
+                
             }
 
             &__action {

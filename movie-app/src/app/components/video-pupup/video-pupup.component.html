@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <div class="video" [class.active]="visibility$" (click)="hide()">
+        <div class="video__content">
+            <iframe  [src]= url title="YouTube video player"
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <button class="video__close" (click)="hide()"><i class="pi pi-times"></i></button>
+    </div>
+</div>

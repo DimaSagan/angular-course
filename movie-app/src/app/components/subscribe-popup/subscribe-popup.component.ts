@@ -31,7 +31,7 @@ export class SubscribePopupComponent implements OnInit{
        this.visible = res
      })
     this.form = new FormGroup({
-      userName: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
       userSurname: new FormControl('', Validators.required),
       userMail: new FormControl('', [Validators.email, Validators.required]),
       date: new FormControl<Date | null>(null, Validators.required),

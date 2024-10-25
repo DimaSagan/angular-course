@@ -1,0 +1,46 @@
+<div class="home-page">
+    
+    <section class="home-page__header header">
+        <div class="header__wrapper">
+            <h1>Welcome on BingeBox</h1>
+            <h2>Tv's & Movies online service</h2>
+        </div>
+        
+        <div class="header__bg" [ngClass]="{gray: gray}">
+           
+            @for (bg of bgs; track $index) {
+                <div class="bg-wrapper">
+                    <img src="https://image.tmdb.org/t/p/w500/{{bg}}" alt="">
+                </div>
+            }
+        </div>
+        <div class="header__action">
+            <a [routerLink]="[]" fragment="recomendations" class="pi pi-chevron-down"></a>
+        </div>
+    </section>
+
+    <section class="home-page__hero" id="recomendations" appScrollListener [elementClass]="'home-page__hero'" [activeStyles]="{'opacity':'1'}" [startScrollThreshold]="0.1" [rootMargin]="'0px'">
+        <h3>recomendations</h3>
+        <app-swiper-hero [movies]="mostPopular| async"></app-swiper-hero>
+    </section>
+
+    <section class="home-page__section section" appIntersectionObserver [threshold]="0.25" [rootMargin]="'0px'">
+        <h2><a [routerLink]="['/',nowPlayingLink]">now playing</a></h2>
+        <div><app-swiper [movies]="nowPlaying$ | async" [fullListLink]="nowPlayingLink"></app-swiper></div>
+    </section>
+
+    <section class="home-page__section" appIntersectionObserver [threshold]="0.25" [rootMargin]="'0px'">
+        <h2><a [routerLink]="['/',popularLink]">popular</a></h2>
+        <div><app-swiper [movies]="popular$ | async" [fullListLink]="popularLink"></app-swiper></div>
+    </section>
+
+    <section class="home-page__section" appIntersectionObserver [threshold]="0.25" [rootMargin]="'0px'">
+        <h2><a [routerLink]="['/',topRatedLink]">top rated</a></h2>
+        <div><app-swiper [movies]="topRated$ | async" [fullListLink]="topRatedLink"></app-swiper></div>
+    </section>
+
+    <section class="home-page__section" appIntersectionObserver [threshold]="0.25" [rootMargin]="'0px'">
+        <h2><a [routerLink]="['/',upcomingLink]">upcoming</a></h2>
+        <div><app-swiper [movies]="upcoming$ | async" [fullListLink]="upcomingLink"></app-swiper></div>
+    </section>
+</div>

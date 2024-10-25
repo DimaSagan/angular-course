@@ -2,6 +2,8 @@ import { createReducer, on } from '@ngrx/store';
  import * as MovieActions from './actions' 
 import { initialState } from './state';
 import { Movie, MovieApiModel } from "../models/movie.model";   
+
+type MovieListType = 'now_playing' | 'upcoming' | 'top_rated' | 'popular';
 export const MovieReducer = createReducer(
   initialState,
 
@@ -21,6 +23,13 @@ export const MovieReducer = createReducer(
       error: error
     };
   }),
+  
+  on(MovieActions.showMoreMoviesSuccess, (state, { movieList, movies }) => {
+    return {
+      ...state,
+      [movieList]: [...(state[movieList] || []), ...movies],
+    };
+  }),
 
   // Load movie details page 
   on(MovieActions.loadMovieDetailsSuccess, (state, { movie }) => {
@@ -38,6 +47,28 @@ export const MovieReducer = createReducer(
       
     }
   }),
+
+  on(MovieActions.loadMovieCreditsSuccess, (state, { credits }) => {
+    return {
+      ...state,
+      movieCast: credits.cast
+    }
+  }),
+
+  on(MovieActions.LoadMovieTrailersSuccess, (state, { trailers }) => {
+    return {
+      ...state,
+      videoLink: trailers.results[0].key
+    }
+  }),
+
+  on(MovieActions.clearMovieDetails, state => ({
+    ...state,
+    movieDetailsPage: null,
+    movieCast: null,
+    videoLink: null
+  })),
+
   // load user movie-lists
   on(MovieActions.loadUserMovieListsSuccess, (state, { userListName, movies }) => {
     return {
@@ -93,6 +124,52 @@ export const MovieReducer = createReducer(
       ...state,
       userSubscription:unsubscribe
     }
+  }),
+
+  // ============== Firestore block
+
+  // favorite movies db
+  on(MovieActions.getFavoritesMoviesSuccees, (state, { favoriteMovies }) => {
+    return {
+      ...state,
+      favoriteDb: favoriteMovies
+    }
+  }),
+
+  //  watchlist movies db 
+  on(MovieActions.getWachlistMoviesSuccees, (state, { wachlistMovies }) => {
+    return {
+      ...state,
+      watchlistDb : wachlistMovies
+   }
+  }),
+
+  // Login & check login 
+  on(MovieActions.checkUserLoginSucceess, (state, { userId }) => {
+    return {
+      ...state,
+      uidDb: userId
+    }
+  }),
+
+  on(MovieActions.googleLoginInDataBaseSuccess, (state, { userId }) => {
+    return {
+      ...state,
+      uidDb: userId
+    }
+  }),
+
+  on(MovieActions.emailAndPassLoginSucceess, (state, { uid }) => {
+    return {
+      ...state,
+      uidDb: uid
+    }
+  }),
+
+  on(MovieActions.userLogOutSucceess, (state) => {
+    return {
+      ...state,
+      uidDb : 'not login'
+    }
   })
-  
 )

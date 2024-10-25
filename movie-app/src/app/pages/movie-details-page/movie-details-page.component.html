@@ -1,21 +1,68 @@
+@if(movie$ | async; as movie){
+<div class="details-page-wrapper" [class.active]="load">
+    <div class="details">
+        <div class="details__header header">
+            <div class="header__img">
+                <img [src]=imgPath+movie.poster_path alt="poster">
+            </div>
+            <div class="header__info info">
+                <h2 class="info__title">{{movie.title}}</h2>
+                <h3 class="info__subtitle">{{movie.release_date | dateFormat}}</h3>
+                <div class="info__wrapper">
+                    <output class="info__rate" [ngClass]="movie.vote_average|rateClass">{{movie.vote_average | rateFormat}}</output>
+                    <time class="info__runtime">Time: {{movie.runtime | timeFormat}}</time>
+                </div>
+                <div class="info__action action" *ngIf="!smallScreen">
+                    <button (click)="showPopup()">Trailer <i class="pi pi-play-circle"></i></button>
+                    <button>Online<i class="pi pi-play-circle"></i></button>
+                    <button>Add to<i class="pi pi-heart"></i></button>
+                    <button>Add to<i class="pi pi-bookmark"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="action" *ngIf="smallScreen">
+            <button (click)="showPopup()">Trailer <i class="pi pi-play-circle"></i></button>
+            <button>Online<i class="pi pi-play-circle"></i></button>
+            <button>Add to<i class="pi pi-heart"></i></button>
+            <button>Add to<i class="pi pi-bookmark"></i></button>
+        </div>
+        <div class="details__body body">
+            <h2 class="body__overview-title">Overview</h2>
+            <p class="body__overview">{{movie.overview}}</p>
+            <h3 class="body__genres-title">Genres</h3>
+            <p class="body__genres">@for(genres of movie.genres; track $index) { 
+                {{genres.name}}<span *ngIf="$index !== movie.genres.length -1">,</span> 
+            }</p>
 
-<div class="details">
-    <div class="details__header header">
-        <div class="header__img">
-            <img [src]=imgPath+(movie$|async)?.poster_path alt="poster">
+            <div class="body__cast" *ngIf="cast$|async as cast">
+                <h2 class="body__cast-title">Top Cast</h2>
+                <div class="body__cast-wrapper">
+                    @for (actor of cast; track $index) {
+                    <div class="actor-card">
+                        @if(actor.profile_path){
+                        <div class="actor-card__img-wrapper"><img [src]=imgPath+actor.profile_path [alt]=actor.name></div>
+                        }@else{
+                        <i class="pi pi-box"></i>
+                        }
+
+                        <h2>{{actor.name}}</h2>
+                    </div>
+                    }
+                </div>
+            </div>
         </div>
-        <div class="header__info">
-            <p><span>Title: </span>{{(movie$|async)?.title}}</p>
-            <p><span>Original language: </span>{{(movie$|async)?.original_language}}</p>
-            <p><span>Release: </span>{{(movie$|async)?.release_date}}</p>
-            <p><span>Rate: </span>{{(movie$|async)?.vote_average}}</p>
-            <p>{{(movie$|async)?.overview}}</p>
-        </div>
+
+
+
+
+
     </div>
-    <div class="details__body body">
-        
+    <div class="details-bg">
+        <img [src]=bgPath+movie.backdrop_path alt="poster">
     </div>
+    <app-video-pupup [link]="trailer"></app-video-pupup>
+
+
+
 </div>
-<div class="details-bg">
-    <img [src]=bgPath+(movie$|async)?.backdrop_path alt="poster">
-</div>
+}
