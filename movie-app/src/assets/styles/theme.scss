@@ -14,8 +14,21 @@
       box-shadow: none;
     }
   }
+  .p-button{
+    .active & {
+      background-color: orange;
+      &:hover{
+        background-color: rgb(255, 123, 0); 
+    }
+    &:active{
+        background-color: rgb(255, 98, 0);
+        
+    }
+    }
+  }
+
+  
 }
-//=============================================
 body {
   position: relative;
   background: #1f1f1f;

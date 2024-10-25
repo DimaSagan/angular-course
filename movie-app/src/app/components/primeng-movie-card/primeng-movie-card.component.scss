@@ -6,19 +6,6 @@
         flex: 0 1 25%;
         min-width: toRem(200);
         max-width: toRem(450);
-        // .movie-list__bookmarks &,
-        // .favorite__movies & {
-        //     flex: 0 1 15%;
-        // }
-        // @media (max-width: toEm($tablet)) {
-        //     flex: 0 1 25%;
-        // }
-        // @media (max-width: toEm($mobile)) {
-        //     flex: 0 1 50%;
-        // }
-        // @media (max-width: toEm($mobileSmall)) {
-        //     flex: 0 1 100%;
-        // }
         .p-card-header {
             position: relative;
             &:not(:last-child) {

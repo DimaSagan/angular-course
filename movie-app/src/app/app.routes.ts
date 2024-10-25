@@ -14,6 +14,6 @@ export const routes: Routes = [
     { path: 'top-rate', component: TopRateComponent },
     { path:'upcoming', component: UpcomingComponent},
     { path: 'movie/:id', component: MovieDetailsPageComponent },
-    { path: 'favorite', component: FavoritesPageComponent, outlet: 'outlet2'},
-    { path: 'bookmark', component: BookmarksPageComponent, outlet: 'outlet2'}
+    { path: 'favorite', component: FavoritesPageComponent},
+    { path: 'bookmark', component: BookmarksPageComponent}
 ];

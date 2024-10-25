@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MovieListComponent } from './components/movie-list/movie-list.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from "./components/header/header.component";
 
@@ -11,7 +10,6 @@ import { HeaderComponent } from "./components/header/header.component";
     styleUrl: './app.component.scss',
     imports: [
         RouterOutlet,
-        MovieListComponent,
         SidebarComponent,
         HeaderComponent
     ]

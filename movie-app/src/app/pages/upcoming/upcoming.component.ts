@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { upcomingMovies } from '../../../assets/mock-data/mock-data2';
+import { Component, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
 import { HeaderComponent } from "../../components/header/header.component";
+import { MovieService } from '../../servises/movie.service';
 @Component({
     selector: 'app-upcoming',
     standalone: true,
@@ -9,23 +9,10 @@ import { HeaderComponent } from "../../components/header/header.component";
     styleUrl: './upcoming.component.scss',
     imports: [PrimengMovieCardComponent, HeaderComponent]
 })
-export class UpcomingComponent {
-  upcomingMovies = upcomingMovies
-
-  public favoriteListIds = new Set()
-  public bookmarksListIds = new Set()
-
-  handleAddFavorite(movie: any) {
-    const set = this.favoriteListIds
-    this.addOrDelMovieOfList(set, movie)
-  }
-  handleAddBookmark(movie: any) {
-    const set = this.bookmarksListIds
-    this.addOrDelMovieOfList(set, movie)
-  }
-  addOrDelMovieOfList(list:any, item:any) {
-    if (list.has(item)) {
-      list.delete(item)
-    } else list.add(item)
+export class UpcomingComponent implements OnInit {
+  upcomingMovies:any[] = []
+  constructor(private movieService: MovieService){}
+  ngOnInit(): void {
+    this.upcomingMovies = this.movieService.getUpcomingMovies()
   }
 }

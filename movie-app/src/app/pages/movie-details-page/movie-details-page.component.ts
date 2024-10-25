@@ -1,30 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { nowPlayingMovies, popularMovies, topRatedMovies, upcomingMovies } from '../../../assets/mock-data/mock-data2';
 import { RateFormatPipe } from "../../pipes/rate-format/rate-format.pipe";
-import { HeaderComponent } from "../../components/header/header.component";
+import { MovieService } from '../../servises/movie.service';
+
 
 @Component({
     selector: 'app-movie-details-page',
     standalone: true,
     templateUrl: './movie-details-page.component.html',
     styleUrl: './movie-details-page.component.scss',
-    imports: [RateFormatPipe, HeaderComponent]
+    imports: [RateFormatPipe]
 })
 export class MovieDetailsPageComponent implements OnInit {
   movie: any
-  movies = [
-    ...nowPlayingMovies,
-    ...popularMovies,
-    ...topRatedMovies,
-    ...upcomingMovies
-  ]
+  
   imgPath = 'https://image.tmdb.org/t/p/w500'
-  constructor(private route: ActivatedRoute) { }
+  constructor(private movieService: MovieService, private route:ActivatedRoute) { }
   
   ngOnInit(): void {
-    const id= this.route.snapshot.paramMap.get('id') 
-    if(id)
-    this.movie = this.movies.find((movieItem)=> movieItem.id === parseInt(id))
+    const id = this.route.snapshot.paramMap.get('id')
+    if(id)this.movie = this.movieService.getMovieById(id)
   }
 }
