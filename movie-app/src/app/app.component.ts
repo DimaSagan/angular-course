@@ -5,7 +5,10 @@ import { MovieListComponent } from './components/movie-list/movie-list.component
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MovieListComponent],
+  imports: [
+    RouterOutlet,
+    MovieListComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
