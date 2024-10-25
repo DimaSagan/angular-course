@@ -1,0 +1,147 @@
+@import "functions";
+.subscribe-wrapper{
+
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #3845566a;
+    backdrop-filter: blur(20px);
+    z-index: 20;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    visibility: hidden;
+    transition: opacity 0.5s;
+    &.active{
+        visibility: visible;
+        opacity: 1;
+        overflow: hidden;
+    }
+}
+.subscribe-block {
+    background-color: #ffffff;
+    color: #4b5563;
+    border-radius: toRem(10);
+    position: relative;
+    top: 8%;
+    display: flex;
+
+    &__wrapper{
+        padding:toRem(55) toRem(25);
+    }
+    img{
+        max-width: 600px;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: toRem(10) 0 0 toRem(10);
+        filter: grayscale(0.7);
+    }
+    &__button{
+        position: absolute;
+        top:toRem(10);
+        right: toRem(10);
+        background-color: inherit;
+        color: #4b5563;
+    }
+    // .login-block__header
+
+    &__header {
+        font-weight: 600;
+        margin-bottom: toRem(15);
+
+    }
+
+    // .login-block__header-title
+
+    &__header-title {
+        text-align: center;
+       
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        gap: toRem(15);
+    }
+    &__form-wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        cursor: pointer;
+        &:last-child{
+            margin-top: 25px;
+            justify-content: center;
+        }
+        label{
+            cursor: pointer;
+        }
+        input{
+            cursor: pointer;
+            border-bottom: toRem(1) solid #4b5563;
+            outline: none;
+            transition: 0.4s;
+            &:focus-visible{
+                border-bottom: 1px solid orange;
+            }
+        }
+
+    }
+    &__submit{
+        padding: toRem(10) toRem(20);
+        border-radius: toRem(10);
+        box-shadow: toRem(3) toRem(3) toRem(5) rgba(0, 0, 0, 0.086);
+        background-color: green;
+        color: #fff;
+        transition: 0.3s;
+        &:disabled{
+            background-color: #fff;
+            color: rgb(183, 183, 183);
+        }
+        &:active{
+            background-color: rgb(1, 108, 1);
+        }
+    }
+
+    &__success{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        gap: toRem(30);
+        display: none;
+        p{
+            font-size: toRem(20);
+            font-weight: 500;
+        }
+        button{
+            padding: toRem(10) toRem(25);
+            font-weight: 500;
+            color: #fff;
+            background-color: #dba3a3;
+            transition: 0.3s;
+            &:hover{
+                background-color: #cd2c2c;
+            }
+            &:active{
+                background-color: #811c1c;
+            }
+        }
+        &.active{
+            display: flex;
+        }
+    }
+    
+}
+
+.login-failure{
+    position: absolute;
+    bottom: 3%;
+    left: 7%;
+    color: red;
+    letter-spacing: toRem(1);
+}
+
+p-calendar{
+    border-bottom: toRem(1) solid #4b5563;
+    
+  }

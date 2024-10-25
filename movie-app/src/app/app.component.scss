@@ -28,7 +28,9 @@
 }
 .page {
     // .page__container
-
+    &:not(:last-child){
+    margin-bottom: toRem(100);
+    }
     &__container {
         display: flex;
         flex-direction: column;
@@ -40,7 +42,7 @@
         position: fixed;
         width: 300px;
         height: 100%;
-        top: toRem(50);       // поправить на высоту хедера <====
+        top: toRem(50);      
         left: 0;
         transition: 1s;
         &:has(.active){
@@ -61,4 +63,8 @@
         padding-left: 345px;
         transition: padding-left 1s;
     }
+}
+
+footer{
+    position: relative;
 }

@@ -26,13 +26,24 @@
     }
     }
   }
+  .p-inputtext{
+    border-radius:0;
+    width: 100%;
+    border-bottom: toRem(1) solid #4b5563;
 
+}
+input{
+  border-bottom: toRem(1) solid #4b5563;
+
+}
+p-calendar{
+  border: toRem(1) solid #4b5563;
   
+}
 }
 body {
   position: relative;
   background: #1f1f1f;
-  // overflow: clip;
   &::after {
     content: "";
     color: #fff;
@@ -52,7 +63,6 @@ body {
     height: toRem(971);
     border-radius: 999px;
     background: #dfd25b;
- 
     position: fixed;
     filter: blur(254.5px);
     top: 500px;
@@ -60,4 +70,8 @@ body {
     z-index: -1;
   }
   background-image: url('../img/Noise.png');
+  
+  &:has(.loader, .login-wrapper.active, .subscribe-wrapper.active){
+    overflow: hidden;
+  }
 }

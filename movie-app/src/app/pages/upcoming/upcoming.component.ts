@@ -1,30 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
-import { HeaderComponent } from "../../components/header/header.component";
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
-import { loadMovies } from '../../store/actions';
 import { ClearObservable } from '../../directives/clear-observable';
 import { selectUpcoming } from '../../store/selectors';
-import { takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
+import { MovieListComponent } from "../../components/movie-list/movie-list.component";
+import { CommonModule } from '@angular/common';
 @Component({
-    selector: 'app-upcoming',
-    standalone: true,
-    templateUrl: './upcoming.component.html',
-    styleUrl: './upcoming.component.scss',
-    imports: [PrimengMovieCardComponent, HeaderComponent]
+  selector: 'app-upcoming',
+  standalone: true,
+  templateUrl: './upcoming.component.html',
+  styleUrl: './upcoming.component.scss',
+  imports: [MovieListComponent, CommonModule]
 })
 export class UpcomingComponent extends ClearObservable implements OnInit {
-  upcomingMovies: Movie[] = []
-  
-  constructor(private store: Store) {
+  moviesResult$: Observable<Movie[]>
+
+  constructor(
+    private store: Store,) {
+
     super()
-   }
-  
+
+    this.moviesResult$ = this.store.select(selectUpcoming).pipe(
+      takeUntil(this.destroy$) 
+    )
+  }
+
   ngOnInit(): void {
-    this.store.dispatch(loadMovies({ listName: 'upcoming'}))
-    this.store.select(selectUpcoming).pipe(takeUntil(this.destroy$)).subscribe(movies => {
-      this.upcomingMovies = movies?.results ?? []
-    })
   }
 }

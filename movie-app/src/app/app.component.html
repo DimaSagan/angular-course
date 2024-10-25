@@ -3,14 +3,22 @@
         <header><app-header></app-header></header>  
     </header>
     <main class="wrapper__page page">
+        <app-loader *ngIf="loading$|async"></app-loader>
+        
+        <app-login-popup></app-login-popup>
+        <app-subscribe-popup></app-subscribe-popup>
+        
         <div class="page__container">
             <nav class="page__sidebar">
                 <app-sidebar></app-sidebar>
             </nav>
             <section class="page__content">
+                
                 <router-outlet></router-outlet>  
             </section>
         </div>
     </main>
-    <footer></footer>
+    <footer>
+        <app-footer></app-footer>
+    </footer>
 </div>

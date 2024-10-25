@@ -8,9 +8,9 @@ import { RateFormatPipe } from "../../pipes/rate-format/rate-format.pipe";
 import { MovieService } from '../../servises/movie.service';
 import { Movie } from '../../models/movie.model';
 import { Store } from '@ngrx/store';
-import { loadUserMovieLists, setMovieToUserList } from '../../store/actions';
+import { setMovieToUserList } from '../../store/actions';
 import { selectFavoriteMoviesIds, selectWatchlistIds } from '../../store/selectors';
-import { Observable, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { ClearObservable } from '../../directives/clear-observable';
 @Component({
   selector: 'app-primeng-movie-card',
@@ -32,19 +32,16 @@ export class PrimengMovieCardComponent extends ClearObservable implements OnInit
   favoriteIsActive: boolean = false;
   watchListIsActive: boolean = false;
 
-  favoriteMovieIds$?: Observable<number[]>
-  watchlistMovieIds$?: Observable<number[]>
-
   constructor(private router: ActivatedRoute, private movieService: MovieService, private store: Store) {
     super()
   }
   ngOnInit(): void {
-    this.favoriteMovieIds$ = this.store.select(selectFavoriteMoviesIds)
-    this.favoriteMovieIds$.pipe(takeUntil(this.destroy$)).subscribe(ids => {
+
+    this.store.select(selectFavoriteMoviesIds).pipe(takeUntil(this.destroy$)).subscribe(ids => {
       this.favoriteIsActive = ids.includes(this.mov.id)
     })
-    this.watchlistMovieIds$ = this.store.select(selectWatchlistIds)
-    this.watchlistMovieIds$.pipe(takeUntil(this.destroy$)).subscribe(ids => {
+
+    this.store.select(selectWatchlistIds).pipe(takeUntil(this.destroy$)).subscribe(ids => {
       this.watchListIsActive = ids.includes(this.mov.id)
     })
     if (this.router.snapshot.routeConfig?.path === 'favorite' || this.router.snapshot.routeConfig?.path === 'watchlist') this.buttonSwich = true

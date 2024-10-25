@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from "./components/header/header.component";
-import { MovieService } from './servises/movie.service';
-import { from, Observable, of, Subscription } from 'rxjs';
-import { AuthService } from './servises/auth.service';
-import { HttpParams } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { loadUserMovieLists } from './store/actions';
+import { LoginPopupComponent } from './components/login-popup/login-popup.component';
+import { LoaderService } from './servises/loader.service';
+import { LoaderComponent } from './components/loader/loader.component';
+import { CommonModule } from '@angular/common';
+import { ClickOutsideDirective } from './directives/clickOutsade';
+import { FooterComponent } from "./components/footer/footer.component";
+import { SubscribePopupComponent } from "./components/subscribe-popup/subscribe-popup.component";
 
 @Component({
     selector: 'app-root',
@@ -15,22 +16,34 @@ import { loadUserMovieLists } from './store/actions';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     imports: [
-        RouterOutlet,
-        SidebarComponent,
-        HeaderComponent
-    ]
+    CommonModule,
+    RouterOutlet,
+    SidebarComponent,
+    HeaderComponent,
+    LoginPopupComponent,
+    LoaderComponent,
+    ClickOutsideDirective,
+    FooterComponent,
+    SubscribePopupComponent
+]
 })
 export class AppComponent implements OnInit {
-    title = 'angular_course';
 
-    constructor(private movieService: MovieService, private authService: AuthService, private store: Store) { }
+    loading$ = this.loaderService.loaderState
+    constructor(
+        private router: Router,
+        private loaderService: LoaderService
+    ) { }
 
     ngOnInit(): void {
-        this.authService.startSession().subscribe(response => {
-            this.movieService.setSessionId(response.session_id)
-            this.store.dispatch(loadUserMovieLists({ listName: 'favorite' }))
-            this.store.dispatch(loadUserMovieLists({ listName: 'watchlist' }))
-       })       
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationStart) {
+                this.loaderService.showLoader()
+            } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+                this.loaderService.hideLoader()
+            }
+        })
+       
     }
 }
 

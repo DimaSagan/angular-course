@@ -1,34 +1,32 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core';
-import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
-import { HeaderComponent } from "../../components/header/header.component";
-
-import { Store } from '@ngrx/store';
-import { loadMovies } from '../../store/actions';
-
-import { selectNowPlayingMovies } from '../../store/selectors';
-import { Movie } from '../../models/movie.model';
+import { Component, OnInit} from '@angular/core';
+import { MovieListComponent } from "../../components/movie-list/movie-list.component";
 import { Observable, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { ClearObservable } from '../../directives/clear-observable';
+import { Movie } from '../../models/movie.model';
+import { selectNowPlayingMovies, selectPopular } from '../../store/selectors';
 @Component({
   selector: 'app-now-playing',
   standalone: true,
   templateUrl: './now-playing.component.html',
   styleUrl: './now-playing.component.scss',
-  imports: [CommonModule, PrimengMovieCardComponent, HeaderComponent]
+  imports: [CommonModule, MovieListComponent]
 })
 export class NowPlayingComponent extends ClearObservable implements OnInit {
+  
+  moviesResult$: Observable<Movie[]>
 
-  nowPlayingMovies?: Movie[]
+  constructor(
+    private store: Store,) {
 
-  constructor(private store: Store) {
     super()
+
+    this.moviesResult$ = this.store.select(selectNowPlayingMovies).pipe(
+      takeUntil(this.destroy$) 
+    )
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadMovies({ listName: 'now_playing' }))
-    this.store.select(selectNowPlayingMovies).pipe(takeUntil(this.destroy$)).subscribe(movies => {
-      this.nowPlayingMovies = movies?.results ?? []
-    })
   }
 }
