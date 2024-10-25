@@ -1,0 +1,6 @@
+<header class="header"><app-header [favoriteListIds]="favoriteListIds" [bookmarksListIds]="bookmarksListIds"></app-header></header>
+<div class="content">
+    @for (movie of upcomingMovies; track $index) {
+        <app-primeng-movie-card [mov]="movie" (addToFavorite)="handleAddFavorite($event)" (addToBookmarks)="handleAddBookmark($event)"></app-primeng-movie-card>
+    }
+</div>

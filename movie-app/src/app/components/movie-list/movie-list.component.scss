@@ -1,11 +1,12 @@
 @import "functions";
 :host{
     display: block;
-    height: 100vh;
+    height: 100%;
 }
 .movie-list {
-    background-color: #3d4a58;
-    max-width: toRem(1270);
+    background-color: #3d4a5827;
+    width: 100%;
+    // max-width: toRem(1270);
     padding: toRem(25) toRem(15);
     margin: 0 auto;
     display: flex;

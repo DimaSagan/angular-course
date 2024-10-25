@@ -1,0 +1,13 @@
+.header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+.content{
+    padding-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 15px;
+}

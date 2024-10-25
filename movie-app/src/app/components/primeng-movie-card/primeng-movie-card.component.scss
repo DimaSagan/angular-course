@@ -1,21 +1,24 @@
 @import "functions";
 :host {
+    cursor: pointer;
     ::ng-deep {
         padding: 0 toRem(7.5);
-        flex: 0 1 20%;
-        .movie-list__bookmarks &,
-        .favorite__movies & {
-            flex: 0 1 15%;
-        }
-        @media (max-width: toEm($tablet)) {
-            flex: 0 1 25%;
-        }
-        @media (max-width: toEm($mobile)) {
-            flex: 0 1 50%;
-        }
-        @media (max-width: toEm($mobileSmall)) {
-            flex: 0 1 100%;
-        }
+        flex: 0 1 25%;
+        min-width: toRem(200);
+        max-width: toRem(450);
+        // .movie-list__bookmarks &,
+        // .favorite__movies & {
+        //     flex: 0 1 15%;
+        // }
+        // @media (max-width: toEm($tablet)) {
+        //     flex: 0 1 25%;
+        // }
+        // @media (max-width: toEm($mobile)) {
+        //     flex: 0 1 50%;
+        // }
+        // @media (max-width: toEm($mobileSmall)) {
+        //     flex: 0 1 100%;
+        // }
         .p-card-header {
             position: relative;
             &:not(:last-child) {
@@ -35,33 +38,35 @@
             overflow: hidden;
             border-radius: 0;
             padding-bottom: toRem(5);
-            box-shadow: 3px 3px 10px rgba(10, 7, 42, 0.571);
+            box-shadow: 3px 3px 10px rgba(21, 21, 21, 0.424);
             &:hover {
                 .card__description {
                     left: 0;
-                    background-color: rgba(11, 18, 47, 0.787);
+                    background-color: rgba(59, 59, 59, 0.787);
                 }
             }
-            img {
-                width: 100%;
-                height: 100%;
-                aspect-ratio: 3 / 4.1;
-                object-fit: cover;
-            }
+      
+                img {
+                    width: 100%;
+                    height: 100%;
+                    aspect-ratio: 500 / 281;
+                    object-fit: cover;
+                }
 
-            &__description {
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                color: #fff;
-                background-color: rgba(0, 0, 0, 0.286);
-                padding: toRem(10);
-                transition:
-                    left 0.5s,
-                    background-color 0.7s;
-            }
+                &__description {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    color: #fff;
+                    background-color: rgba(0, 0, 0, 0.286);
+                    padding: toRem(10);
+                    transition:
+                        left 0.5s,
+                        background-color 0.7s;
+                }
+         
             &__action {
                 position: absolute;
                 bottom: 0;
@@ -69,6 +74,7 @@
                 display: flex;
                 gap: toRem(5);
                 padding: toRem(5);
+                z-index: 12;
                 button {
                     border-radius: 50%;
                     width: toRem(30);
@@ -89,9 +95,10 @@
             display: flex;
             flex-direction: column;
             gap: toRem(5);
+            pointer-events: none;
             p {
                 display: -webkit-box;
-                -webkit-line-clamp: 5;
+                -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 line-height: 1.27;
