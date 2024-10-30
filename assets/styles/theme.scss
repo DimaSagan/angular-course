@@ -1,0 +1,83 @@
+@import "functions";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,regular,500,500italic,600,800&display=swap");
+
+// For primeNG
+:root {
+  --font-family: "Montserrat", sans-serif;
+  --maskbg: transparent;
+}
+@layer reset, primeng;
+@layer reset {
+  button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .p-button {
+    background-color: #ffffff45;
+    &:hover {
+      background-color: #ffffff66;
+    }
+    .active & {
+      background-color: rgba(255, 166, 0, 0.858);
+      &:hover {
+        background-color: rgb(255, 123, 0);
+      }
+      &:active {
+        background-color: rgb(255, 98, 0);
+      }
+    }
+  }
+  .p-inputtext {
+    border-radius: 0;
+    width: 100%;
+    border-bottom: toRem(1) solid #4b5563;
+  }
+  input {
+    border-bottom: toRem(1) solid #4b5563;
+  }
+  p-calendar {
+    border: toRem(1) solid #4b5563;
+  }
+  .p-card {
+    background: transparent;
+  }
+  // .pi{
+  //   span{font-family: "Montserrat", sans-serif;}
+  // }
+}
+body {
+  position: relative;
+  background: #1f1f1f;
+  // &::after {
+  //   content: "";
+  //   color: #fff;
+  //   width: toRem(849);
+  //   height: toRem(825);
+  //   border-radius: 849px;
+  //   background: orange;
+  //   position: fixed;
+  //   filter: blur(254.5px);
+  //   top: 50px;
+  //   left: 700px;
+  //   z-index: 1;
+  // }
+  // &::before {
+  //   content: "";
+  //   width: toRem(999);
+  //   height: toRem(971);
+  //   border-radius: 999px;
+  //   background: #000000;
+  //   position: fixed;
+  //   filter: blur(254.5px);
+  //   top: 500px;
+  //   left: 0%;
+  //   z-index: -1;
+  // }
+  background-image: url("../img/Noise.png");
+
+  &:has(.loader, .login-wrapper.active, .subscribe-wrapper.active, .video.active) {
+    overflow: hidden;
+  }
+}
