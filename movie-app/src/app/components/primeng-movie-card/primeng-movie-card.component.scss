@@ -1,0 +1,70 @@
+@import "functions";
+:host {
+    cursor: pointer;
+    ::ng-deep {
+        .p-card-content {
+            &:not(:last-child) {
+                margin-bottom: toRem(3);
+            }
+        }
+        .p-card-content,
+        .p-card-footer {
+            padding: 0 toRem(5);
+        }
+        .card {
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 3px 3px 10px rgba(21, 21, 21, 0.424);
+            position: relative;
+            transition: 0.3s;
+            &:hover {
+                transform: scale(1.02);
+                :has(swiper-slide){
+                    transform: scale(1);
+                }
+            }
+            a{
+                width: 100%;
+                height: 100%;
+                // display: block;
+            }
+            img {
+                width: 100%;
+                aspect-ratio: 273/ 410;
+                object-fit: cover;
+            }
+
+            .img-false {
+                
+            }
+
+            &__action {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                display: flex;
+                gap: toRem(5);
+                padding: toRem(5);
+                z-index: 12;
+                button {
+                    border-radius: 50%;
+                    width: toRem(30);
+                    height: toRem(30);
+                }
+            }
+            &__rate {
+                position: absolute;
+                top: toRem(10);
+                right: toRem(10);
+                background-color: #2b3137;
+                color: #fff;
+                border-radius: 50%;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}

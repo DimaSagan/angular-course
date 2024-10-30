@@ -1,0 +1,18 @@
+@use "sass:math";
+
+@function percent($num1, $num2) {
+    @return math.div($num1, $num2) * 100%;
+}
+
+@function toRem($num1, $num2: 16) {
+    @return math.div($num1, $num2) * 1rem;
+}
+
+@function toEm($num1, $num2: 16) {
+    @return math.div($num1, $num2) * 1em;
+}
+
+$bigScreen: 1920.98;
+$tablet: 990.98;
+$mobile: 767.98;
+$mobileSmall: 479.98;

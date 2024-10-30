@@ -1,0 +1,14 @@
+<div class="sidebar" [class.active]="isActive">
+    <div class="sidebar__wrapper">
+        <h2 class="sidebar__title">Pick a category</h2>
+        <ul class="sidebar__menu-list-sidebar menu-list-sidebar">
+            <li class="menu-list-sidebar__item"><a [routerLink]="['now_playing']" routerLinkActive="active-link">Now playing</a></li>
+            <li class="menu-list-sidebar__item"><a [routerLink]="['popular']" routerLinkActive="active-link">Popular</a></li>
+            <li class="menu-list-sidebar__item"><a [routerLink]="['top_rated']" routerLinkActive="active-link">Top Rate</a></li>
+            <li class="menu-list-sidebar__item"><a [routerLink]="['upcoming']" routerLinkActive="active-link">Upcoming</a></li>
+        </ul>
+    </div>
+    <button class="sidebar__button " (click)="toggleActive()">
+        <i class="pi pi-arrow-circle-left"></i>
+    </button>
+</div>

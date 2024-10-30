@@ -1,0 +1,78 @@
+<div class="login-wrapper" [class.active]="visible">
+    <div class="login-block">
+        <span *ngIf="loginFailure" class="login-failure">Invalid username and/or password</span>
+        <button type="button" class="login-block__button" (click)="closeDialog()"><i class="pi pi-times"></i></button>
+        <button type="button" class="login-block__create-new-account" (click)="toggleCreateNewUser()" *ngIf="!createNewUser">Create new account</button>
+        <button type="button" class="login-block__create-new-account" (click)="toggleCreateNewUser()" *ngIf="createNewUser">
+            <i class="pi pi-chevron-left"></i> Back
+        </button>
+
+
+        <div class="login-block__content">
+            <div class="login-block__form-container" [ngClass]="createNewUser?'anable':''">
+                <div class="login-block__header">
+                    <h2 class="login-block__header-title">Login</h2>
+        
+                </div>
+                <form [formGroup]="form" [ngClass]="createNewUser ? 'disable': 'anable'" (ngSubmit)="onSubmit()" class="login-block__form ">
+                    <div class="login-block__form-wrapper">
+                        <input type="email" id="user-email" formControlName="userEmail" placeholder=" ">
+                        <label for="user-email">Email:</label>
+                    </div>
+                    <div class="login-block__form-wrapper">
+        
+                        
+                        <input type="password" id="pass" formControlName="pass" placeholder=" ">
+                        <label for="pass">Password:</label>
+                    </div>
+                    <div class="login-block__action">
+                        <div class="login-block__social">
+                            <button (click)="dbAuth()" class="login-block__google"><i class="pi pi-google"></i></button>
+                            <button (click)="dbAuth()" class="login-block__google"><i class="pi pi-facebook"></i></button>
+                            <button (click)="dbAuth()" class="login-block__google"><i class="pi pi-github"></i></button>
+                            <button (click)="dbAuth()" class="login-block__google"><i class="pi pi-instagram"></i></button>
+        
+                        </div>
+                        <div class="login-block__submit-wrapper">
+                            <button type="submit" [disabled]="form.invalid" class="login-block__submit">Submit <i class="pi pi-sign-in"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    
+            <div class="login-block__form-container login-block__form-container--new-user" [ngClass]="createNewUser ? 'anable': ''">
+                <div class="login-block__header">
+                    <h2 class="login-block__header-title">Create new User</h2>
+        
+                </div>
+                <form [formGroup]="formCreateUser"  (ngSubmit)="createUser()" class="login-block__form login-block__form--new-user">
+                    <div class="login-block__form-wrapper">
+                        <input type="text" id="user-name" formControlName="userName" placeholder=" ">
+                        <label for="user-name">Enter your Name:</label>
+                        
+                    </div>
+                    <div class="login-block__form-wrapper">
+                        
+                        <input type="email" id="new-email" formControlName="newEmail" placeholder=" ">
+                        <label for="new-email">Enter your email:</label>
+                        
+                    </div>
+                    <div class="login-block__form-wrapper">
+                        <input [type]="passwordVisible ? 'text' : 'password'" id="new-pass" formControlName="newPass" placeholder=" ">
+                        <label for="new-pass">Enter your password:</label>
+                        <button *ngIf="!passwordVisible" (click)="passwordVisibility()"><i class="pi pi-eye"></i></button>
+                        <button *ngIf="passwordVisible" (click)="passwordVisibility()"><i class="pi pi-eye-slash"></i></button>
+                    </div>
+                    <div class="login-block__action">
+                        
+                        <div class="login-block__submit-wrapper">
+                            <button type="submit" [disabled]="formCreateUser.invalid" class="login-block__submit">Create <i class="pi pi-user-plus"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>

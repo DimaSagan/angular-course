@@ -1,0 +1,24 @@
+<p-card styleClass="card">
+    <ng-template pTemplate="header">
+        <a [routerLink]="['/movie', mov.id]">
+            @if(mov.poster_path){
+                <img [alt]="mov.title" src="https://image.tmdb.org/t/p/w500/{{mov.poster_path}}" />
+            }@else {
+               <img src="{{imgFalsePath}}" alt="error">
+            }
+        </a>
+        <div class="card__action">
+            @if(!buttonSwich){
+            <p-button (click)="addMovieToFavorite(mov)" icon="pi pi-heart" [class.active]="favoriteIsActive" />
+            <p-button (click)="addMovieToWatchlist(mov)" icon="pi pi-bookmark" class="w-full" styleClass="w-full"
+                [class.active]="watchListIsActive" />
+            }
+            @if(buttonSwich){
+            <p-button (click)="deleteMovieFromlist(mov)" icon="pi pi-trash" />
+            }
+            <!-- <button (click)="addToFire(mov)">test add</button>
+            <button (click)="delFromFire(mov)">test del</button> -->
+        </div>
+        <div class="card__rate">{{mov.vote_average | rateFormat}}</div>
+    </ng-template>
+</p-card>

@@ -1,0 +1,50 @@
+<div class="subscribe-wrapper" [class.active]="visible">
+
+    <div class="subscribe-block">
+        <img src="assets/img/movie-posters.jpg" alt="#">
+        <div class="subscribe-block__wrapper">
+            <button type="button" class="subscribe-block__button" (click)="closeDialog()"><i class="pi pi-times"></i></button>
+            <div class="subscribe-block__header">
+                <h2 class="subscribe-block__header-title">BingeBox newsletter subscription:</h2>
+
+            </div>
+
+            @if(!subscribeMessage){
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="subscribe-block__form">
+                <div class="subscribe-block__form-wrapper">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" formControlName="name">
+                </div>
+                <div class="subscribe-block__form-wrapper">
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surname" formControlName="userSurname">
+                </div>
+                <div class="subscribe-block__form-wrapper">
+                    <label for="mail">Email:</label>
+                    <input type="email" id="mail" formControlName="userMail">
+                </div>
+                <div class="subscribe-block__form-wrapper">
+                    <label for="date">Birth Date:</label>
+                    <p-calendar id="date" formControlName="date" />
+                </div>
+                <div class="subscribe-block__form-wrapper">
+                    <label for="agreement">Agreement for data processing:</label>
+                    <input type="checkbox" id="agreement" formControlName="agreement">
+                </div>
+                <div class="subscribe-block__form-wrapper">
+                    <button type="submit" [disabled]="form.invalid" class="subscribe-block__submit">Submit <i class="pi pi-sign-in"></i></button>
+                </div>
+            </form>
+            }@else {
+                <div class="subscribe-block__success" [class.active]="visibleMessage">
+                    <p>You are subscribed!</p>
+                    <button (click)="unsubscribe()">Unsubscribe</button>
+                </div>
+                <div class="subscribe-block__success" [class.active]="!visibleMessage">
+                    <p>You are unsubscribed!</p>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

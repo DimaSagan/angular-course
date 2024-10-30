@@ -1,0 +1,12 @@
+<div>
+    <button (click)="sortMoviesByRating()" title="Sort by rate">
+        @if(sortButtonByRateType){<i class="pi pi-sort-amount-up"></i>}
+        @if(!sortButtonByRateType){<i class="pi pi-sort-amount-up-alt"></i>}
+    </button>
+    <button (click)="sortMoviesByTitle()" title="Sort A-Z">
+        @if(sortButtonByTitleType){<i class="pi pi-sort-alpha-up"></i>}
+        @if(!sortButtonByTitleType){<i class="pi pi-sort-alpha-up-alt"></i>}
+    </button>
+    <p></p>
+</div>
+

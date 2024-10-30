@@ -1,0 +1,98 @@
+@import "functions";
+
+.footer {
+    width: 100%;
+    h2 {
+        font-size: toRem(18);
+        font-weight: 600;
+        &:not(:last-child) {
+            margin-bottom: toRem(10);
+        }
+    }
+    li {
+        display: flex;
+        align-items: center;
+        gap: toRem(8);
+        font-weight: 500;
+        &:not(:last-child) {
+            margin-bottom: toRem(10);
+        }
+        &:hover {
+            a {
+                color: orange;
+            }
+            i {
+                color: orange;
+            }
+        }
+        &:active {
+            a {
+                color: rgb(255, 119, 0);
+            }
+            i {
+                color: rgb(255, 119, 0);
+            }
+        }
+        a,
+        i {
+            transition: 0.3s;
+        }
+    }
+    // .footer__action
+
+    &__action {
+        max-width: toRem(1630);
+        padding: toRem(30) toRem(15);
+        margin: 0 auto;
+
+        display: flex;
+        gap: toRem(20);
+        &:not(:last-child) {
+            margin-bottom: toRem(40);
+        }
+        @media (max-width: toEm($mobile)) {
+            flex-wrap: wrap;
+        }
+    }
+
+    // .footer__subsribe
+
+    &__subsribe {
+        // width: 100%;
+        display: flex;
+        flex-grow: 1;
+        // flex: 0 1 80%;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: toRem(20);
+
+        button {
+            flex-shrink: 0;
+            flex-grow: 0;
+            padding: toRem(10) toRem(35);
+            font-weight: 500;
+            color: #fff;
+            background-color: orange;
+            transition: 0.3s;
+            box-shadow: toRem(2) toRem(2) toRem(2) rgba(16, 15, 18, 0.269);
+            &:hover {
+                background-color: rgb(236, 135, 2);
+            }
+            &:active {
+                background-color: rgb(255, 119, 0);
+            }
+            @media (max-width: toEm($mobileSmall)) {
+                width: 100%;
+            }
+        }
+    }
+
+    // .footer__copyright
+
+    &__copyright {
+        border-top: 1px solid orange;
+        padding: toRem(5) toRem(15);
+        font-size: toRem(14);
+        color: gray;
+    }
+}
