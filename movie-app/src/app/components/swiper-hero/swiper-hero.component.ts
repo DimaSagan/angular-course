@@ -26,29 +26,11 @@ export class SwiperHeroComponent implements OnInit, AfterViewInit {
     if (this.movies) {
       this.maxCounterNumber = this.movies.length
     }
-    // this.cd.detectChanges()
   }
 
   ngAfterViewInit(): void {
 
   }
-
-  // upCounterNumber() {
-  //   this.minCouterNumber++
-  //   this.cd.detectChanges()
-  //   console.log('+')
-  //   // this.ngZone.run(() => {  // Помещаем изменение состояния в зону Angular
-  //   //   if (this.minCouterNumber < this.maxCouterNumber) {
-  //   //     this.minCouterNumber++;
-  //   //   } else {
-  //   //     this.minCouterNumber = 1;
-  //   //   }
-  //   //   console.log('Счётчик увеличен:', this.minCouterNumber);
-  //   // });
-  // }  
-  // downCounterNumber() { 
-  //   this.minCouterNumber--
-  // }
 
   changesSlide(prevOrNext: number): void {
     const swiperSlides = this.swiperRef.nativeElement.swiper;

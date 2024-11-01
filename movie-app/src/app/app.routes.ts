@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { MovieResolver } from './guards/movie.resolver';
 import { AuthGuard } from './guards/auth.guard';
 import { HomePageResolver } from './guards/home-page.resolver';
