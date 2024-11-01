@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, Input, NgZone, OnInit} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { RouterLink } from '@angular/router';
-import Swiper from 'swiper';
+import { SwiperContainer } from 'swiper/element';
 
 
 @Component({
@@ -14,42 +14,53 @@ import Swiper from 'swiper';
 
 })
 export class SwiperHeroComponent implements OnInit, AfterViewInit {
-  @Input() movies: Movie[] |null = []
+  @Input() movies: Movie[] | null = []
 
   backdropPath = 'https://image.tmdb.org/t/p/original'
 
-  minCouterNumber:number = 1
-  maxCouterNumber: number = 1
-  
-  constructor(private cd: ChangeDetectorRef, private ngZone: NgZone){}
+  minCounterNumber: number = 1
+  maxCounterNumber: number = 1
+  @ViewChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
+  constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
     if (this.movies) {
-      this.maxCouterNumber = this.movies.length
-     }
+      this.maxCounterNumber = this.movies.length
+    }
     // this.cd.detectChanges()
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
-  upCounterNumber() {
-    this.minCouterNumber++
-    this.cd.detectChanges()
-    console.log('+')
-    // this.ngZone.run(() => {  // Помещаем изменение состояния в зону Angular
-    //   if (this.minCouterNumber < this.maxCouterNumber) {
-    //     this.minCouterNumber++;
-    //   } else {
-    //     this.minCouterNumber = 1;
-    //   }
-    //   console.log('Счётчик увеличен:', this.minCouterNumber);
-    // });
-  }  
-  downCounterNumber() { 
-    this.minCouterNumber--
-  }
+  // upCounterNumber() {
+  //   this.minCouterNumber++
+  //   this.cd.detectChanges()
+  //   console.log('+')
+  //   // this.ngZone.run(() => {  // Помещаем изменение состояния в зону Angular
+  //   //   if (this.minCouterNumber < this.maxCouterNumber) {
+  //   //     this.minCouterNumber++;
+  //   //   } else {
+  //   //     this.minCouterNumber = 1;
+  //   //   }
+  //   //   console.log('Счётчик увеличен:', this.minCouterNumber);
+  //   // });
+  // }  
+  // downCounterNumber() { 
+  //   this.minCouterNumber--
+  // }
 
- 
+  changesSlide(prevOrNext: number): void {
+    const swiperSlides = this.swiperRef.nativeElement.swiper;
+    if (swiperSlides) {
+      if (prevOrNext === -1 && this.minCounterNumber !== 1) {
+        swiperSlides.slidePrev();
+        this.minCounterNumber--;
+      } else if (prevOrNext === 1 && this.minCounterNumber !== this.maxCounterNumber) {
+        swiperSlides.slideNext();
+        this.minCounterNumber++;
+      }
+    }
+  }
 
 }

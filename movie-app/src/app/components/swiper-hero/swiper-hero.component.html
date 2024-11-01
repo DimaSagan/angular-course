@@ -1,15 +1,6 @@
-
 <div class="swiper">
-    <swiper-container class="my-swiper"
-    (swiperslidenexttransitionend)="upCounterNumber()"
-    (swiperslideprevtransitionend)="downCounterNumber()"
-    space-between="50" 
-   
-    speed="800" 
-    navigation-next-el=".next" 
-    navigation-prev-el=".prev" 
-    slides-per-view="1">
-        
+    <swiper-container #swiper class="my-swiper" space-between="50" speed="800" slides-per-view="1">
+
         @for (movie of movies; track movie.id) {
         <swiper-slide class="swiper-slide">
             <div class="swiper-slide__wrapper">
@@ -24,23 +15,23 @@
                     <img [src]=backdropPath+movie.backdrop_path alt="poster">
                 </div>
             </div>
-            
+
         </swiper-slide>
         }
 
-        
-        
+
+
     </swiper-container>
     <div class="swiper__action">
         <div class="swiper__action-buttons">
-            <button class="prev"><i class="pi pi-chevron-left"></i></button>
+            <button class="prev" (click)="changesSlide(-1)"><i class="pi pi-chevron-left"></i></button>
             <!-- <div class="swiper-button-prev">prev</div> -->
-            <button class="next"><i class="pi pi-chevron-right"></i></button>
+            <button class="next" (click)="changesSlide(1)"><i class="pi pi-chevron-right"></i></button>
         </div>
-        <div class="swiper__action-counter"> 
-            <span>{{minCouterNumber}}</span> 
-            <span>/</span> 
-            <span>{{maxCouterNumber}}</span>
+        <div class="swiper__action-counter">
+            <span>{{minCounterNumber}}</span>
+            <span>/</span>
+            <span>{{maxCounterNumber}}</span>
         </div>
     </div>
 </div>

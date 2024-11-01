@@ -1,33 +1,18 @@
-<!-- @if(movies$ | async; as movies){ -->
+<div class="swiper">
+    <swiper-container #swiper [breakpoints]="swiperConfig.breakpoints" space-between="20" speed="500">
+         @for (movie of movies; track movie.id) {
+        <swiper-slide>
+        <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
+        </swiper-slide>
+        }
+        <swiper-slide class="swiper__link">
+            <a [routerLink]="['/',fullListLink]" routerLinkActive="active-link" class="swiper__link-item">
+                <span><i class="pi pi-arrow-circle-right"></i>show more</span>
+                <img src="../../../assets/img/oppenheimer.webp" alt="">
+            </a>
+        </swiper-slide>
+    </swiper-container>
 
-<!-- <div ngIf="movies"> -->
-    <div class="swiper">
-        <swiper-container 
-        [breakpoints]="swiperConfig.breakpoints" 
-        space-between="20" 
-        speed="500"
-        navigation-next-el=".next" 
-        navigation-prev-el=".prev">
-            
-            @for (movie of movies; track movie.id) {
-            <swiper-slide>
-                <app-primeng-movie-card [mov]="movie"></app-primeng-movie-card>
-            </swiper-slide>
-            }
-            <swiper-slide class="swiper__link">
-                <a [routerLink]="['/',fullListLink]" routerLinkActive="active-link" class="swiper__link-item">
-                    <span><i class="pi pi-arrow-circle-right"></i>show more</span>
-                    <img src="../../../assets/img/oppenheimer.webp" alt="">
-                </a>
-            </swiper-slide>
-        </swiper-container>
-
-        <button class="prev"><i class="pi pi-chevron-left"></i></button>
-        <button class="next"><i class="pi pi-chevron-right"></i></button>
-    </div>
-    
-<!-- </div> -->
-<!-- } -->
-
-
-
+    <button class="prev" (click)="changesSlide(-1)"><i class="pi pi-chevron-left"></i></button>
+    <button class="next" (click)="changesSlide(1)"><i class="pi pi-chevron-right"></i></button>
+</div>
