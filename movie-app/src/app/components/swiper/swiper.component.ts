@@ -32,11 +32,11 @@ export class SwiperComponent implements AfterViewInit {
     }
   }
 
-
   @Input() movies: Movie[] | null = null
   @Input() fullListLink!: string
   @ViewChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
   listLink: string
+  initialized = false
   constructor() {
     this.listLink = this.fullListLink
 
@@ -44,20 +44,18 @@ export class SwiperComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.swiperRef && this.swiperRef.nativeElement.swiper) {
-      console.log('Swiper инициализирован:', this.swiperRef.nativeElement.swiper);
+      this.initialized = true
     } else {
-      console.error('Swiper не был инициализирован.');
+      console.error('Error: Swiper not initialized.');
     }
   }
 
 
   changesSlide(prevOrNext: number): void {
     const swiperInstance = this.swiperRef.nativeElement.swiper;
-    if (swiperInstance) {
+    if (this.initialized) {
       prevOrNext === -1 ? swiperInstance.slidePrev() : swiperInstance.slideNext();
-    } else {
-      console.error('Ошибка: Swiper не инициализирован.');
-    }
+    } 
   }
 
 }

@@ -44,13 +44,13 @@ export class AppComponent implements OnInit {
         
         this.store.dispatch(checkUserLogin())
 
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                this.loaderService.showLoader()
-            } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-                this.loaderService.hideLoader()
-            }
-        })
+        // this.router.events.subscribe(event => {
+        //     if (event instanceof NavigationStart) {
+        //         this.loaderService.showLoader()
+        //     } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        //         this.loaderService.hideLoader()
+        //     }
+        // })
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {

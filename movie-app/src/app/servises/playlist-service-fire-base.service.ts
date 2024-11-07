@@ -31,7 +31,6 @@ export class PlaylistFireBaseServise {
             const ref = collection(this.firestore, `users/${user.uid}/favorites`)
             const q = query(ref, where('movie.id', '==', movie.id))
             const querySnapshot = await getDocs(q)
-
             if (querySnapshot.empty) {
                 await addDoc(ref, { movie })
             }
@@ -45,7 +44,6 @@ export class PlaylistFireBaseServise {
             const ref = collection(this.firestore, `users/${user.uid}/favorites`)
             const q = query(ref, where('movie.id', '==', movie.id))
             const querySnapshot = await getDocs(q)
-
             querySnapshot.forEach(async (docSnap) => {
                 const docRef = doc(this.firestore, `users/${user.uid}/favorites/${docSnap.id}`)
                 await deleteDoc(docRef)
@@ -63,7 +61,6 @@ export class PlaylistFireBaseServise {
                 movies.push(data["movie"] as Movie)
 
             })
-            console.log(movies)
             return movies
         }))
     }
@@ -76,7 +73,6 @@ export class PlaylistFireBaseServise {
             const ref = collection(this.firestore, `users/${user.uid}/wachlist`)
             const q = query(ref, where('movie.id', '==', movie.id))
             const querySnapshot = await getDocs(q)
-
             if (querySnapshot.empty) {
                 await addDoc(ref, { movie })
             }
@@ -97,18 +93,16 @@ export class PlaylistFireBaseServise {
             })
         }
     }
-
    
     getWachlist(uid: string): Observable<Movie[]> {
         const ref = collection(this.firestore, `users/${uid}/wachlist`);
         return from(getDocs(ref).then(snapshot => {
-            const movies: Movie[] = [];
+            const movies: Movie[] = []
             snapshot.forEach(doc => {
-                const data = doc.data();
+                const data = doc.data()
                 movies.push(data["movie"] as Movie)
-            });
-            console.log(movies)
+            })
             return movies
-        }));
+        }))
     }
 }

@@ -1,4 +1,11 @@
 @import "functions";
+.movie-list{
+ opacity: 0;
+ transition: 0.4s;
+ &.load{
+    opacity: 1;
+ }
+}
 .header {
     width: 100%;
     display: flex;

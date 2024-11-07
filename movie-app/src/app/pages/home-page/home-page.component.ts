@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
 import { SwiperHeroComponent } from "../../components/swiper-hero/swiper-hero.component";
 import { IntersectionObserverDirective } from '../../directives/intersection-observer.directive';
 import { ScrollListenerDirective } from '../../directives/scroll-listener.directive';
+import { CanComponentDeactivate } from '../../guards/can-deactivate.guard';
+import { LoaderService } from '../../servises/loader.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +20,7 @@ import { ScrollListenerDirective } from '../../directives/scroll-listener.direct
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
-export class HomePageComponent implements OnInit, AfterViewInit {
+export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDeactivate  {
 
   nowPlaying$!: Observable<Movie[]>;
   popular$!: Observable<Movie[]>
@@ -26,7 +28,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   upcoming$!: Observable<Movie[]>
   gray = false
   mostPopular!: Observable<Movie[]>
-
+  deactivate = false
   bgs: string[] = []
 
   nowPlayingLink = 'now_playing'
@@ -38,7 +40,8 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   constructor(
     private store: Store,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private loader: LoaderService
   ) { }
 
 
@@ -65,9 +68,6 @@ export class HomePageComponent implements OnInit, AfterViewInit {
         return prevArr;
       }, []).slice(0,21)
     })
-
-
-
   }
 
   ngAfterViewInit(): void {
@@ -77,8 +77,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
   randomPosition() {
     const leftPosition: number[] = this.generateRandomNumbers(80, 4)
     const topPosition: number[] = Array.from({ length: 20 }, (_, index) => (index % 2 === 0 ? 0 : 35))
-    let cards = document.querySelectorAll('.bg-wrapper') 
-    // console.log(topPosition)
+    let cards = document.querySelectorAll('.bg-wrapper')
 
     for (let n = 0; n < cards.length; n++) {
       const randomScale = Math.random() * (1.2 - 1) + 1;
@@ -105,5 +104,13 @@ export class HomePageComponent implements OnInit, AfterViewInit {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
     return numbers
+  }
+
+  canDeactivate(): Observable<boolean> {
+    this.loader.hideLoader()
+    this.deactivate = true
+    return timer(500).pipe(
+      map(() => true)
+    )
   }
 }

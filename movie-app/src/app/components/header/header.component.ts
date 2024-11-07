@@ -27,7 +27,8 @@ export class HeaderComponent extends ClearObservable implements OnInit {
   searchForm!: FormGroup
   searchResults!: any
   userName!: string | null
-  showMenu:boolean=false
+  showMenu: boolean = false
+  menuOpen =false
   // userId:string
   constructor(
     private store: Store,
@@ -59,8 +60,6 @@ export class HeaderComponent extends ClearObservable implements OnInit {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.userName = user.displayName
-        console.log('User:', user);
-        console.log(this.userName)
       }
     })
     
@@ -82,7 +81,17 @@ export class HeaderComponent extends ClearObservable implements OnInit {
   }
 
   toggleMenu() {
-    this.showMenu = !this.showMenu
+    this.showMenu = true
+    setTimeout(() => {
+      if(this.menuOpen===false){this.menuOpen= true}
+    },1000)
+    
+  }
+  hideUserMenu() {
+    if (this.menuOpen === true&& this.showMenu === true) {
+      this.showMenu = false
+      this.menuOpen = false
+    }
   }
 
   loginUser() {

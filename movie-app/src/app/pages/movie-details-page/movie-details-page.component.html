@@ -1,18 +1,18 @@
 @if(movie$ | async; as movie){
-<div class="details-page-wrapper" [class.active]="load">
+<div class="details-page-wrapper" >
     <div class="details">
         <div class="details__header header">
-            <div class="header__img">
+            <div class="header__img" [ngClass]="{disable : deactivate, active:load}">
                 <img [src]=imgPath+movie.poster_path alt="poster">
             </div>
-            <div class="header__info info">
+            <div class="header__info info" [ngClass]="{disable : deactivate, active:load}">
                 <h2 class="info__title">{{movie.title}}</h2>
                 <h3 class="info__subtitle">{{movie.release_date | dateFormat}}</h3>
                 <div class="info__wrapper">
                     <output class="info__rate" [ngClass]="movie.vote_average|rateClass">{{movie.vote_average | rateFormat}}</output>
                     <time class="info__runtime">Time: {{movie.runtime | timeFormat}}</time>
                 </div>
-                <div class="info__action action" *ngIf="!smallScreen">
+                <div class="info__action action" *ngIf="!smallScreen" [ngClass]="{disable : deactivate, active:load}">
                     <button (click)="showPopup()">Trailer <i class="pi pi-play-circle"></i></button>
                     <button>Online<i class="pi pi-play-circle"></i></button>
                     <button>Add to<i class="pi pi-heart"></i></button>
@@ -20,13 +20,13 @@
                 </div>
             </div>
         </div>
-        <div class="action" *ngIf="smallScreen">
+        <div class="action" *ngIf="smallScreen" [ngClass]="{disable : deactivate, active:load}">
             <button (click)="showPopup()">Trailer <i class="pi pi-play-circle"></i></button>
             <button>Online<i class="pi pi-play-circle"></i></button>
             <button>Add to<i class="pi pi-heart"></i></button>
             <button>Add to<i class="pi pi-bookmark"></i></button>
         </div>
-        <div class="details__body body">
+        <div class="details__body body" [ngClass]="{disable : deactivate, active:load}">
             <h2 class="body__overview-title">Overview</h2>
             <p class="body__overview">{{movie.overview}}</p>
             <h3 class="body__genres-title">Genres</h3>
@@ -51,18 +51,10 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
-    <div class="details-bg">
+    <div class="details-bg" [ngClass]="{disable : deactivate, active:load}">
         <img [src]=bgPath+movie.backdrop_path alt="poster">
     </div>
-    <app-video-pupup [link]="trailer"></app-video-pupup>
-
-
-
+    <app-video-pupup></app-video-pupup>
 </div>
 }

@@ -22,10 +22,9 @@ export const HomePageResolver: ResolveFn<any> = (route) => {
         filter(selectUserId => selectUserId !== null),
         take(1)
     ).subscribe(id => {
-        console.log('id from guard', id)
         if (id) {
             store.dispatch(getFavoritesMovies({ userId: id }))
-        store.dispatch(getWachlistMovies({ userId: id }))
+            store.dispatch(getWachlistMovies({ userId: id }))
         }
     })
 

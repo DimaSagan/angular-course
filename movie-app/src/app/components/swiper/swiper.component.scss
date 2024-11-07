@@ -49,14 +49,14 @@
     }
 }
 
-swiper-slide {
-    transition: 0.8s;
-    @media (any-hover: hover) {
-        &:hover {
-            transform: scale(0.96);
-        }
-    }
-}
+// swiper-slide {
+//     transition: 0.8s;
+//     @media (any-hover: hover) {
+//         &:hover {
+//             transform: scale(0.96);
+//         }
+//     }
+// }
 
 .prev,
 .next {

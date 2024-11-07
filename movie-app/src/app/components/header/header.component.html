@@ -45,7 +45,7 @@
             
         </div>
 
-        <div class="header__user-menu menu-user" [ngClass]="{'show':showMenu}">
+        <div class="header__user-menu menu-user" [ngClass]="{'show':showMenu}" appClickOutside (clickOutside)="hideUserMenu()">
             <p class="menu-user__name"><i class="pi pi-user"></i> {{userName}}</p>
             <ul>
                 <li><a href="#">settings</a></li>

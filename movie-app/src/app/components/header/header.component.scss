@@ -7,7 +7,7 @@
     position: sticky;
     top: 0;
     left: 0;
-    
+
     // .header__container
     &__container {
         max-width: toRem(1630);
@@ -17,7 +17,6 @@
         align-items: center;
         gap: toRem(10);
         position: relative;
-        // font-size: clamp(toRem(18), toRem(16.608) + 0.44vw, toRem(25));
     }
     // .header__logo
 
@@ -36,11 +35,14 @@
         i {
             margin-right: toEm(5);
             font-weight: 600;
-            font-size: clamp(toRem(18), toRem(16.608) + 0.44vw, toRem(25));
+            font-size: toRem(25);
         }
         span {
             font-family: "Montserrat", sans-serif;
             font-weight: 600;
+            @media (max-width: toEm($mobile)) {
+                font-size: toRem(0);
+            }
         }
     }
 
@@ -51,7 +53,6 @@
         flex-grow: 0;
         flex-basis: 85%;
         gap: toRem(15);
-        // padding-left: toRem(5);
         color: #1f1f1f;
     }
     &__action-favorites,
@@ -67,12 +68,14 @@
         span {
             font-family: "Montserrat", sans-serif;
         }
-        i::before,span {
+        i::before,
+        span {
             transition: 0.3s;
             color: #1f1f1f;
         }
         &:hover {
-            i::before,span {
+            i::before,
+            span {
                 color: #ffa500;
             }
         }
@@ -87,9 +90,7 @@
             padding: toRem(8);
             gap: 0;
             justify-content: center;
-            // text-align: center;
         }
-
     }
 
     // search
@@ -99,32 +100,24 @@
         max-width: toRem(500);
         position: relative;
         transition: 1s;
-        @media (max-width: toEm($mobile)) {
-            &:has(:focus) {
-                //     position: fixed;
-                //     top: toRem(10);
-                //     left: 0;
-                //     height: toRem(32);
-                //     flex-basis: 100%;
-                // max-width: 100%;
-            }
-        }
     }
     &__search-form {
         position: relative;
         height: 100%;
+        transition: width 0.3s;
         @media (max-width: toEm($mobile)) {
-            &:has(:focus){
-                
+            &:has(:focus) {
+                position: fixed;
+                width: 100%;
+                left: 0;
             }
         }
     }
     &__search-item {
         width: 100%;
-        // max-width: toRem(500);
         border-radius: toRem(20);
         height: toRem(32);
-        padding: toRem(5) toRem(30) toRem(5) toRem(10);
+        padding: toRem(5) toRem(45) toRem(5) toRem(20);
         box-shadow: 0 toRem(1) toRem(5) rgba(0, 0, 0, 0.256);
         transition: 0.2s;
         &:hover {
@@ -140,14 +133,8 @@
                 opacity: 0;
             }
         }
-        @media (max-width: toEm($mobile)) {
-            &:focus {
-                // background-color: #ffa500;
-                position: fixed;
-                top: toRem(10);
-                left: 0;
-                height: toRem(32);
-            }
+        @media (max-width: toEm($mobileSmall)) {
+            padding: toRem(5) toRem(35) toRem(5) toRem(8);
         }
     }
     &__search-button {
@@ -155,29 +142,28 @@
         color: #1f1f1f;
         position: absolute;
         top: toRem(6);
-        right: 5%;
+        right: toRem(15);
         transition: 0.5s;
+        @media (max-width: toEm($mobileSmall)) {
+            right: toRem(10);
+        }
     }
-    &__login{
+    &__login {
         display: flex;
         justify-content: flex-end;
-        // .header__action>.header__search-item:has(:focus){
-        //     display: none;
-        // }
-    //    flex-grow: 0;
-    flex: 0 0 5%;
-        button{
-            border-radius: toRem(20);;
+        flex: 0 0 5%;
+        button {
+            border-radius: toRem(20);
             padding: toRem(7.25) toRem(15);
             transition: 0.3s;
             background-color: #fff;
             box-shadow: 0 toRem(1) toRem(5) rgba(0, 0, 0, 0.256);
-            i::before{
+            i::before {
                 transition: 0.3s;
                 color: #1f1f1f;
             }
             &:hover {
-                i::before{
+                i::before {
                     color: #ffa500;
                 }
             }
@@ -185,7 +171,6 @@
                 background-color: #f1f1f1;
             }
         }
-
     }
 }
 
@@ -218,13 +203,10 @@
             font-size: toRem(18);
         }
     }
-
-    
 }
 
-.menu-user{
+.menu-user {
     position: absolute;
-    // z-index: -20;
     top: 105%;
     right: 0;
     background-color: #ffffff;
@@ -233,44 +215,44 @@
     visibility: hidden;
     opacity: 0;
     transition: 0.3s;
-    &.show{
+    &.show {
         visibility: visible;
         opacity: 1;
     }
-    p{
+    p {
         margin-bottom: toRem(15);
         font-weight: 500;
     }
-    ul{
+    ul {
         margin-bottom: toRem(15);
-        li{
+        li {
             text-transform: capitalize;
-            &:not(:last-child){
-            margin-bottom: toRem(8);
+            &:not(:last-child) {
+                margin-bottom: toRem(8);
             }
-            a{
+            a {
                 display: flex;
                 justify-content: space-between;
 
-                &::after{
+                &::after {
                     content: "\e931";
-                    font-family: 'PrimeIcons';
+                    font-family: "PrimeIcons";
                     opacity: 0;
                     transition: 0.3s;
                 }
-                @media(any-hover: hover){
-                        &:hover{
-                        &::after{
+                @media (any-hover: hover) {
+                    &:hover {
+                        &::after {
                             opacity: 1;
                         }
-                       }
-                       }
+                    }
+                }
             }
         }
     }
-    div{
+    div {
         text-align: center;
-        button{
+        button {
             padding: toRem(5) toRem(15);
             border-radius: toRem(5);
             color: white;

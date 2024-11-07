@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { PrimengMovieCardComponent } from "../primeng-movie-card/primeng-movie-card.component";
 import { SortBarComponent } from "../sort-bar/sort-bar.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { loadMovies, showMoreMovies } from '../../store/actions';
 import { Movie } from '../../models/movie.model';
@@ -20,22 +20,21 @@ type MovieListType = 'now_playing' | 'upcoming' | 'top_rated' | 'popular';
 })
 
 export class MovieListComponent extends ClearObservable implements OnInit {
+  
   @Input() data: Movie[] | null = []
 
   listName!: string | undefined
   sorted: boolean = false
   private currentPage: number = 2
   showMoreSwitcher: boolean = false
-  
+  load = false
   constructor(
     private activatedRoute: ActivatedRoute,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) { super() }
 
   ngOnInit(): void {
-    console.log(this.activatedRoute.routeConfig?.path)
-    // if(this.activatedRoute.snapshot.url)
-  //  console.log('currentPage', this.currentPage)
     this.listName = this.activatedRoute.routeConfig?.path
     if (this.listName === 'watchlist'|| this.listName === 'favorite') {
       this.showMoreSwitcher = true
@@ -47,6 +46,9 @@ export class MovieListComponent extends ClearObservable implements OnInit {
       this.loadMovieListIfNeeded(this.listName)
     }}
 
+    setTimeout(() => {
+      this.load = true
+    },500)
   }
 
   getMovieList(listName: string) {
@@ -55,7 +57,6 @@ export class MovieListComponent extends ClearObservable implements OnInit {
 
   loadMovieListIfNeeded(listName: string) {
     let selector: Observable<Movie[]> = this.store.select(selectNowPlayingMovies)
-
     switch (listName) {
       case 'now_playing':
         selector = this.store.select(selectNowPlayingMovies)
@@ -69,19 +70,18 @@ export class MovieListComponent extends ClearObservable implements OnInit {
       case 'upcoming':
         selector = this.store.select(selectUpcoming)
         break
-      
     }
- 
       selector.subscribe(arr => {
         if (arr.length === 0) {
           this.getMovieList(listName)
         }
       })
-    
   }
+
   trackById(index: number, movie: Movie): number {
     return movie.id;
   }
+
   sortByRating() {
     if (this.data) {
       if (!this.sorted) {
@@ -108,14 +108,12 @@ export class MovieListComponent extends ClearObservable implements OnInit {
 
   showMore() {
     const listName = this.listName as MovieListType
-    // let pageNumber = 2
     if (this.listName && ['now_playing', 'upcoming', 'top_rated', 'popular'].includes(this.listName)) {
       this.store.dispatch(showMoreMovies({ listName: listName, pageNumber: this.currentPage }))
-      this.currentPage++; // Увеличиваем `pageNumber` на 1
+      this.currentPage++
       sessionStorage.setItem(`${this.listName}`, this.currentPage.toString())
-      console.log('page number', this.currentPage);
     } else {
-      console.error('Invalid list name:', this.listName);
+      console.error('Invalid list name:', this.listName)
     }
   }
 }

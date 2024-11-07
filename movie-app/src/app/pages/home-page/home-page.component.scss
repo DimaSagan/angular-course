@@ -10,7 +10,6 @@
 @keyframes pulse {
     0% {
         transform: scale(1);
-        
     }
     50% {
         transform: scale(1.25);
@@ -25,52 +24,53 @@
     position: relative;
     min-height: calc(100dvh - 50px);
     margin-bottom: 80px;
-    @media(max-width: toRem($mobile)){
-            margin: 0 toRem(-15);;
-           }
+    @media (max-width: toRem($mobile)) {
+        margin: 0 toRem(-15);
+    }
     &__wrapper {
         position: sticky;
-        top: 50%;
+        top: 35%;
         left: 0;
         padding-left: toRem(20);
         padding-bottom: toRem(50);
         transform: translateX(-100%);
         transition: transform 1s 0.3s ease-in-out;
-        &:has(+.header__bg.gray){
+        &:has(+ .header__bg.gray) {
             transform: translateX(0%);
         }
     }
 
-    h1,
+    // h1,
     h2 {
-        color: transparent;
-        background: linear-gradient(
-            138deg,
-            rgba(254, 255, 5, 1) 12%,
-            rgb(113, 230, 41) 29%,
-            rgb(51, 255, 221) 44%,
-            rgb(185, 100, 255) 66%,
-            rgba(254, 255, 5, 1) 88%
-        );
-        background-clip: text;
-        
+        color: yellow;
     }
     h1 {
+        color: transparent;
+        background: linear-gradient(
+            90deg,
+            rgba(254, 255, 5, 1) 12%,
+            rgba(94, 175, 43, 1) 29%,
+            rgba(253, 29, 29, 1) 44%,
+            rgba(51, 173, 252, 1) 66%,
+            rgba(254, 255, 5, 1) 88%
+        );
         display: inline-block;
-        font-size: clamp(2.5rem, 1.719rem + 3.91vw, 5.625rem);
+        font-size: clamp(4.375rem, 4.063rem + 1.56vw, 5.625rem);
         font-weight: 600;
         line-height: 1.27;
         background-size: 200%;
         animation-name: animationBg;
-        animation-duration: 12s;
+        animation-duration: 15s;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
+        background-clip: text;
+        background-position-x: 0%;
     }
     h2 {
-        font-size: clamp(1.25rem, 1.094rem + 0.78vw, 1.875rem);
+        font-size: clamp(1.875rem, 1.563rem + 1.56vw, 3.125rem);
         font-weight: 500;
         padding-left: toRem(5);
-        background-size: 40%;
+        background-size: 100%;
     }
     &__bg {
         width: 100%;
@@ -80,37 +80,39 @@
         z-index: -1;
         filter: grayscale(0%);
         transition: filter 0.8s;
-        &::after{
-        content: '';
-        width: 100%;
-        height: 100%;
-        position: absolute;    
-        background: radial-gradient(circle, rgba(55, 55, 55, 0) 0%, rgb(17, 17, 17) 100%);
-        opacity: 0;
-        transition: opacity 0.8s;
+        &::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: radial-gradient(circle, rgba(55, 55, 55, 0) 0%, rgb(17, 17, 17) 100%);
+            opacity: 0;
+            transition: opacity 0.8s;
         }
-        &.gray{
+        &.gray {
             filter: grayscale(100%);
-            &::after{
+            &::after {
                 opacity: 1;
             }
-           +.header__action{
+            + .header__action {
                 bottom: toRem(20);
             }
         }
     }
-   
-    .bg-wrapper{
+
+    .bg-wrapper {
         width: 350px;
         position: absolute;
         opacity: 0;
-        transition: opacity 0.4s, filter 0.4s 1.5s;
-        img{
+        transition:
+            opacity 0.4s,
+            filter 0.4s 1.5s;
+        img {
             width: 100%;
             height: 100%;
             box-shadow: toRem(5) toRem(5) toRem(16) rgba(0, 0, 0, 0.492);
         }
-        &.visible{
+        &.visible {
             opacity: 1;
         }
     }
@@ -129,13 +131,18 @@
             animation-duration: 2s;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
-            &:hover{
+            &:hover {
                 animation-play-state: paused;
             }
         }
     }
 }
 .home-page {
+    opacity: 1;
+    transition: opacity 0.5s;
+    &.deactivate{
+        opacity: 0;
+    }
     // .home-page__section
     &__header {
     }
@@ -143,7 +150,7 @@
     &__hero {
         padding-top: toRem(80);
         opacity: 0;
-        h3{
+        h3 {
             text-transform: capitalize;
             color: #fff;
             font-size: clamp(1.875rem, 1.719rem + 0.78vw, 2.5rem);
@@ -159,7 +166,7 @@
         border-radius: 0 toRem(22);
         opacity: 0;
         transition: 0.5s;
-        &.in-view{
+        &.in-view {
             opacity: 1;
         }
         div {

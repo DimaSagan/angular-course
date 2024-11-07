@@ -10,16 +10,11 @@ import { PlaylistFireBaseServise } from "./playlist-service-fire-base.service";
 })
 export class AuthFireBase {
 
-    // private userSubject: BehaviorSubject<any> = new BehaviorSubject(null);
-    // user$: Observable<any> = this.userSubject.asObservable();
-
     constructor(
         private auth: Auth,
         private router: Router,
         private dbPlaylistService: PlaylistFireBaseServise
-    ) {
-        // this.checkUser()
-    }
+    ) {}
 
 
     // Create and login methids whis EMAIL & PASSWORD
@@ -48,7 +43,7 @@ export class AuthFireBase {
             return credentials.user.uid
         } catch (error) {
             const firebaseError = error as { code?: string; message?: string };
-            console.error('Error during Google sign-in:', error)
+            console.error('Error: during Google sign-in:', error)
 
             return firebaseError.message || 'An unknown error occurred during Google sign-in';
         }
@@ -60,7 +55,6 @@ export class AuthFireBase {
         return new Promise((resolve) => {
             onAuthStateChanged(this.auth, user => {
                 if (user) {
-                    console.log(user)
                     resolve(user.uid)
                 } else {
                     resolve('not login')

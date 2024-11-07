@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Movie } from '../../models/movie.model';
 import { RouterLink } from '@angular/router';
 import { SwiperContainer } from 'swiper/element';
@@ -14,14 +14,14 @@ import { SwiperContainer } from 'swiper/element';
 
 })
 export class SwiperHeroComponent implements OnInit, AfterViewInit {
+  
   @Input() movies: Movie[] | null = []
-
   backdropPath = 'https://image.tmdb.org/t/p/original'
-
   minCounterNumber: number = 1
   maxCounterNumber: number = 1
   @ViewChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
-  constructor(private cd: ChangeDetectorRef) { }
+  initialized =false 
+  constructor() { }
   ngOnInit(): void {
     if (this.movies) {
       this.maxCounterNumber = this.movies.length
@@ -29,12 +29,16 @@ export class SwiperHeroComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
+    if (this.swiperRef && this.swiperRef.nativeElement.swiper) {
+      this.initialized = true
+    } else {
+      console.error('Error: Swiper not initialized.');
+    }
   }
 
   changesSlide(prevOrNext: number): void {
     const swiperSlides = this.swiperRef.nativeElement.swiper;
-    if (swiperSlides) {
+    if (this.initialized) {
       if (prevOrNext === -1 && this.minCounterNumber !== 1) {
         swiperSlides.slidePrev();
         this.minCounterNumber--;

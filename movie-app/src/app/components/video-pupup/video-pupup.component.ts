@@ -1,49 +1,52 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { VideoPopupService } from '../../servises/video-popup.service';
-import { Observable, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Subject, takeUntil} from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { YoutubePlayerComponent } from 'ngx-youtube-player';
+import { Store } from '@ngrx/store';
+import { selectVideoLink } from '../../store/selectors';
 
 @Component({
   selector: 'app-video-pupup',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, YoutubePlayerComponent],
   templateUrl: './video-pupup.component.html',
   styleUrl: './video-pupup.component.scss'
 })
 export class VideoPupupComponent implements OnInit {
-  @Input() link: Observable<string | null> = of('')
-  url!: SafeResourceUrl
-  visibility$!: boolean
+  url: string=''
+  visibility$!:boolean
   private destroy$ = new Subject<void>();
-  constructor(private videoPopupService: VideoPopupService, private sanitizer: DomSanitizer) { }
+  private player: any
+  @ViewChild('youtubePlayer', { static: false }) youtubePlayer!: ElementRef;
+  constructor(private videoPopupService: VideoPopupService, private store: Store, private renderer: Renderer2) { }
 
   ngOnInit(): void {
+    this.videoPopupService.getPopupStatus().pipe(takeUntil(this.destroy$)).subscribe(status => {
+      this.visibility$=status
+    })
+    this.store.select(selectVideoLink).pipe(takeUntil(this.destroy$)).subscribe(id => {
+      if (id) {
+        this.url = id
+      }
+    })
+  }
 
-    this.videoPopupService.getPopupStatus().pipe(
-      switchMap(visibility => {
-        this.visibility$ = visibility;
-        if (!visibility) {
-          return of(null);
-        }
-        return this.link;
-      }),
-      tap(addres => {
-        if (addres) {
-          // Проверка на null или пустую строку
-          const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-            `https://www.youtube.com/embed/${addres}?si=iXKJtgXRKcVSlTtT`
-          );
-          this.url = safeUrl;
-        }
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe();
-    
+  
+  savePlayer(player: any) {
+    this.player = player
+    const iframe = player.getIframe();
+    if (iframe) {
+      this.renderer.setStyle(iframe, 'width', '100%');
+      this.renderer.setStyle(iframe, 'height', '100%');
+    }
   }
+  onStateChange(event: any) {
+  }
+  
   hide() {
-    
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(``)
     this.videoPopupService.hide()
+    this.player.stopVideo()
   }
+  
 }
