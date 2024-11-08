@@ -44,18 +44,18 @@ export class HeaderComponent extends ClearObservable implements OnInit {
       searchItem: new FormControl('', Validators.minLength(2))
     })
 
-    this.searchForm.valueChanges.pipe(
-      skip(3),
-      takeUntil(this.destroy$),
-      filter(() => this.router.url !== '/search')
-    ).subscribe(res => {
-      this.searchResults = false
-      this.store.dispatch(searchMovie({ title: res.searchItem }))
-      this.store.select(selectedSearchResult).pipe(
-        takeUntil(this.destroy$)).subscribe(searchResults => {
-          this.searchResults = searchResults?.results
-        })
-    })
+    // this.searchForm.valueChanges.pipe(
+    //   skip(3),
+    //   takeUntil(this.destroy$)
+    //   // filter(() => this.router.url !== '/search')
+    // ).subscribe(res => {
+    //   this.searchResults = false
+    //   this.store.dispatch(searchMovie({ title: res.searchItem }))
+    //   this.store.select(selectedSearchResult).pipe(
+    //     takeUntil(this.destroy$)).subscribe(searchResults => {
+    //       this.searchResults = searchResults?.results
+    //     })
+    // })
     
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -70,6 +70,7 @@ export class HeaderComponent extends ClearObservable implements OnInit {
     this.router.navigate(['search'])
     setTimeout(() => {
       this.searchResults = false
+      this.searchForm.reset()
     }, 100)
   }
 

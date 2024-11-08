@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SwiperComponent } from "../../components/swiper/swiper.component";
 import { Store } from '@ngrx/store';
-import { filter, map, Observable, timer } from 'rxjs';
+import { filter, map, Observable, of, takeUntil, timer } from 'rxjs';
 import { Movie } from '../../models/movie.model';
-import { selectNowPlayingMovies, selectPopular, selectTopRated, selectUpcoming } from '../../store/selectors';
+import { selectDeviceInfo, selectNowPlayingMovies, selectPopular, selectTopRated, selectUpcoming } from '../../store/selectors';
 import { CommonModule } from '@angular/common';
 import { PrimengMovieCardComponent } from "../../components/primeng-movie-card/primeng-movie-card.component";
 import { RouterLink } from '@angular/router';
@@ -12,6 +12,8 @@ import { IntersectionObserverDirective } from '../../directives/intersection-obs
 import { ScrollListenerDirective } from '../../directives/scroll-listener.directive';
 import { CanComponentDeactivate } from '../../guards/can-deactivate.guard';
 import { LoaderService } from '../../servises/loader.service';
+import { DeviceInfo } from 'ngx-device-detector';
+import { ClearObservable } from '../../directives/clear-observable';
 
 @Component({
   selector: 'app-home-page',
@@ -20,7 +22,7 @@ import { LoaderService } from '../../servises/loader.service';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
-export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDeactivate  {
+export class HomePageComponent extends ClearObservable implements OnInit, AfterViewInit, CanComponentDeactivate {
 
   nowPlaying$!: Observable<Movie[]>;
   popular$!: Observable<Movie[]>
@@ -36,16 +38,22 @@ export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDea
   topRatedLink = 'top_rated'
   upcomingLink = 'upcoming'
 
-
+  deviceInfo!: DeviceInfo
 
   constructor(
     private store: Store,
     private cd: ChangeDetectorRef,
     private loader: LoaderService
-  ) { }
+  ) {
+    super()
+  }
 
 
   ngOnInit(): void {
+    this.store.select(selectDeviceInfo).pipe(takeUntil(this.destroy$)).subscribe(info => {
+      if (info) { this.deviceInfo = info }
+    })
+
     this.nowPlaying$ = this.store.select(selectNowPlayingMovies).pipe(map(arr => arr.slice(0, 10)))
     this.popular$ = this.store.select(selectPopular).pipe(map(arr => arr.slice(0, 10)))
     this.topRated$ = this.store.select(selectTopRated).pipe(map(arr => arr.slice(0, 10)))
@@ -66,7 +74,7 @@ export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDea
           prevArr.push(movie.poster_path)
         }
         return prevArr;
-      }, []).slice(0,21)
+      }, []).slice(0, 21)
     })
   }
 
@@ -84,10 +92,10 @@ export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDea
       const card = cards[n] as HTMLElement
       card.style.left = `${leftPosition[n]}%`
       card.style.top = `${topPosition[n]}%`
-      card.style.transform = `scale(${randomScale})` 
+      card.style.transform = `scale(${randomScale})`
       setTimeout(() => {
         card.classList.add('visible')
-      }, n*100)
+      }, n * 100)
     }
     setTimeout(() => {
       this.gray = true
@@ -107,10 +115,16 @@ export class HomePageComponent implements OnInit, AfterViewInit, CanComponentDea
   }
 
   canDeactivate(): Observable<boolean> {
-    this.loader.hideLoader()
-    this.deactivate = true
-    return timer(500).pipe(
-      map(() => true)
-    )
+    if (this.deviceInfo.browser === 'Safari' ||
+      this.deviceInfo.deviceType === 'mobile' ||
+      this.deviceInfo.deviceType === 'tablet') {
+      return of(true)
+    } else {
+      this.loader.hideLoader()
+      this.deactivate = true
+      return timer(500).pipe(
+        map(() => true)
+      )
+    }
   }
 }
