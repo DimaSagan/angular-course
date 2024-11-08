@@ -5,6 +5,7 @@ import { UserDetails } from '../models/user.model';
 import { UserSubscription } from '../models/userSubscription.model';
 import { CreditsModel } from '../models/credits.model';
 import { MovieTrailerModel } from '../models/movie-trailer.model';
+import { DeviceInfo } from 'ngx-device-detector';
 
 type MovieListType = 'now_playing' | 'upcoming' | 'top_rated' | 'popular';
 // load app movie-lists 
@@ -217,3 +218,19 @@ export const emailAndPassLoginFailure = createAction('[login DB] Email And Passw
 export const userLogOut = createAction('[login DB] User Log Out')
 
 export const userLogOutSucceess = createAction('[login DB] User Log Out Succeess')
+
+
+
+
+// ========= ngx-device-detector
+
+
+export const deviceInfo = createAction('[Device Info] Device Info Start')
+
+export const deviceInfoSucceess = createAction('[Device Info] Device Info Succeess',
+    props<{deviceInfo: DeviceInfo}>()
+)
+
+export const deviceInfoFailure = createAction('[Device Info] Device Info Failure',
+    props<{error:any}>()
+)

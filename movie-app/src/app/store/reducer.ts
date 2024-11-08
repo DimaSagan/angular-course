@@ -171,5 +171,14 @@ export const MovieReducer = createReducer(
       ...state,
       uidDb : 'not login'
     }
+  }),
+
+
+  // ngx-device-detector
+  on(MovieActions.deviceInfoSucceess, (state, { deviceInfo }) => {
+    return {
+      ...state,
+      deviceInfo: deviceInfo
+    }
   })
 )

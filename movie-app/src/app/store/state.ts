@@ -1,3 +1,4 @@
+import { DeviceInfo } from "ngx-device-detector";
 import { CastModel } from "../models/credits.model";
 import { MovieDetailsApiModel } from "../models/movie-details.model";
 import { Movie, MovieApiModel } from "../models/movie.model";
@@ -23,6 +24,8 @@ export interface MovieState {
     favoriteDb: Movie[] | null
     watchlistDb: Movie[] | null
     uidDb: string | null
+
+    deviceInfo: DeviceInfo|null
 }
 
 export const initialState: MovieState = {
@@ -43,5 +46,6 @@ export const initialState: MovieState = {
     userSubscription: undefined,
     favoriteDb: null,
     watchlistDb: null,
-    uidDb: null
+    uidDb: null,
+    deviceInfo: null
 }

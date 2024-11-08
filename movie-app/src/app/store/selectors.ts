@@ -42,3 +42,5 @@ export const selectWachlistMoviesDb = createSelector(selectState, state => state
 export const selectWachlistMoviesDbIds = createSelector(selectState, state => state.watchlistDb?.map(movie=> movie.id)|| [])
 
 export const selectUserId = createSelector(selectState, state => state.uidDb)
+
+export const selectDeviceInfo = createSelector(selectState, state=> state.deviceInfo)

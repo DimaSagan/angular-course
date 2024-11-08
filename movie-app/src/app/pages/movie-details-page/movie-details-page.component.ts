@@ -8,7 +8,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { DateFormatPipe } from "../../pipes/date-format/date-format.pipe";
 import { RateClassPipe } from "../../pipes/rate-class/rate-class.pipe";
 import { CastModel } from '../../models/credits.model';
-import { selectMovieCast, selectMovieDeatailsPage, selectVideoLink } from '../../store/selectors';
+import { selectDeviceInfo, selectMovieCast, selectMovieDeatailsPage, selectVideoLink } from '../../store/selectors';
 import { VideoPupupComponent } from "../../components/video-pupup/video-pupup.component";
 import { VideoPopupService } from '../../servises/video-popup.service';
 import { TimeFormatPipe } from "../../pipes/time-format/time-format.pipe";
@@ -16,6 +16,7 @@ import { ClearObservable } from '../../directives/clear-observable';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CanComponentDeactivate } from '../../guards/can-deactivate.guard';
 import { LoaderService } from '../../servises/loader.service';
+import { DeviceInfo } from 'ngx-device-detector';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class MovieDetailsPageComponent extends ClearObservable implements OnInit
   bgStatus: any
   imgPath = 'https://image.tmdb.org/t/p/w500'
   bgPath = 'https://image.tmdb.org/t/p/original'
-
+  deviceInfo!: DeviceInfo
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +51,9 @@ export class MovieDetailsPageComponent extends ClearObservable implements OnInit
   }
 
   ngOnInit(): void {
-
+    this.store.select(selectDeviceInfo).pipe(takeUntil(this.destroy$)).subscribe(info => {
+      if (info) { this.deviceInfo = info }
+    })
     this.checkViewportWidth()
     this.movie$ = this.store.select(selectMovieDeatailsPage)
     this.cast$ = this.store.select(selectMovieCast).pipe(
@@ -69,15 +72,17 @@ export class MovieDetailsPageComponent extends ClearObservable implements OnInit
   canDeactivate(): Observable<boolean> {
     this.loader.hideLoader()
     this.videoPopupService.hide()
-    this.deactivate = true
-    this.cd.detectChanges();
-    // this.load = false
-    this.cd.detectChanges();
-    
-    return timer(1400).pipe(
-        map(()=>true)
+    if (this.deviceInfo.browser === 'Safari' ||
+      this.deviceInfo.deviceType === 'mobile' ||
+      this.deviceInfo.deviceType === 'tablet') {
+      return of(true)
+    } else {
+      this.deactivate = true
+      this.cd.detectChanges()
+      return timer(1400).pipe(
+        map(() => true)
       )
-    
+    }
   }
 
   showPopup() {

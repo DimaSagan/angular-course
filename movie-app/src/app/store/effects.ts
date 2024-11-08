@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
-import { addMovieToFavorite, addMovieToFavoriteFailure, addMovieToFavoriteSucceess, addMovieToWachlist, addMovieToWachlistFailure, addMovieToWachlistSucceess, checkUserLogin, checkUserLoginSucceess, createNewUser, createNewUserFailure, createNewUserSuccess, emailAndPassLogin, emailAndPassLoginFailure, emailAndPassLoginSucceess, getFavoritesMovies, getFavoritesMoviesSuccees, getWachlistMovies, getWachlistMoviesSuccees, googleLoginInDataBase, googleLoginInDataBaseFailure, googleLoginInDataBaseSuccess, loadMovieCredits, loadMovieCreditsSuccess, loadMovieDetails, loadMovieDetailsSuccess, loadMovies, loadMoviesDetailsFailure, loadMoviesFailure, loadMoviesSuccess, LoadMovieTrailers, LoadMovieTrailersSuccess, loadUserMovieLists, loadUserMovieListsFailure, loadUserMovieListsSuccess, putMovieFromFavorites, putMovieFromFavoritesSucceess, putMovieFromWachlist, putMovieFromWachlistSucceess, searchMovie, searchMovieFailure, searchMovieSuccess, setMovieToUserList, setMovieToUserListSuccess, setUserDetails, setUserDetailsFailure, setUserDetailsSuccess, setUserSubscription, setUserSubscriptionSucceess, showMoreMovies, showMoreMoviesSuccess, unsubscribe, unsubscribeSucceess, userLogOut, userLogOutSucceess } from './actions';
+import { addMovieToFavorite, addMovieToFavoriteFailure, addMovieToFavoriteSucceess, addMovieToWachlist, addMovieToWachlistFailure, addMovieToWachlistSucceess, checkUserLogin, checkUserLoginSucceess, createNewUser, createNewUserFailure, createNewUserSuccess, deviceInfo, deviceInfoFailure, deviceInfoSucceess, emailAndPassLogin, emailAndPassLoginFailure, emailAndPassLoginSucceess, getFavoritesMovies, getFavoritesMoviesSuccees, getWachlistMovies, getWachlistMoviesSuccees, googleLoginInDataBase, googleLoginInDataBaseFailure, googleLoginInDataBaseSuccess, loadMovieCredits, loadMovieCreditsSuccess, loadMovieDetails, loadMovieDetailsSuccess, loadMovies, loadMoviesDetailsFailure, loadMoviesFailure, loadMoviesSuccess, LoadMovieTrailers, LoadMovieTrailersSuccess, loadUserMovieLists, loadUserMovieListsFailure, loadUserMovieListsSuccess, putMovieFromFavorites, putMovieFromFavoritesSucceess, putMovieFromWachlist, putMovieFromWachlistSucceess, searchMovie, searchMovieFailure, searchMovieSuccess, setMovieToUserList, setMovieToUserListSuccess, setUserDetails, setUserDetailsFailure, setUserDetailsSuccess, setUserSubscription, setUserSubscriptionSucceess, showMoreMovies, showMoreMoviesSuccess, unsubscribe, unsubscribeSucceess, userLogOut, userLogOutSucceess } from './actions';
 import { MovieService } from '../servises/movie.service';
 import { Store } from '@ngrx/store';
 import { AuthService } from '../servises/auth.service';
@@ -11,6 +11,7 @@ import { PopupService } from '../servises/popup.service';
 import { PlaylistFireBaseServise } from '../servises/playlist-service-fire-base.service';
 import { AuthFireBase } from '../servises/autnFireBase.service';
 import { Auth } from '@angular/fire/auth';
+import { DeviceDetectorService } from 'ngx-device-detector';
 @Injectable()
 export class MovieEffects {
 
@@ -23,7 +24,8 @@ export class MovieEffects {
         private popupService: PopupService,
         private store: Store,
         private router: Router,
-        private auth: Auth
+        private auth: Auth,
+        private deviceService: DeviceDetectorService
     ) { }
 
     loadMovies$ = createEffect(() =>
@@ -293,7 +295,7 @@ export class MovieEffects {
                 return from(this.dbServise.setMovieToFavorites(movie)).pipe(
                     map(() => {
                         const user = this.auth.currentUser
-                        if (user){
+                        if (user) {
                             this.store.dispatch(getFavoritesMovies({ userId: user.uid }))
                         }
                         return addMovieToFavoriteSucceess()
@@ -334,7 +336,7 @@ export class MovieEffects {
                 return from(this.dbServise.putMovieFromFavorites(movie)).pipe(
                     tap(() => {
                         const user = this.auth.currentUser
-                        if (user){
+                        if (user) {
                             this.store.dispatch(getFavoritesMovies({ userId: user.uid }))
                         }
                     }),
@@ -385,7 +387,7 @@ export class MovieEffects {
         )
     )
 
-   
+
 
     putMovieFromWachlist$ = createEffect(() =>
         this.actions$.pipe(
@@ -508,6 +510,26 @@ export class MovieEffects {
                     })
                 )
             })
+        )
+    )
+
+
+    //  ========= ngx-device-detector
+
+    deviceInfo$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(deviceInfo),
+            mergeMap(() => {
+                const deviceInfo = this.deviceService.getDeviceInfo()
+                return of(deviceInfoSucceess({deviceInfo}))
+            }),
+            catchError((error )=> 
+                of(
+                    deviceInfoFailure({
+                        error:error
+                    })
+                )
+            )
         )
     )
 

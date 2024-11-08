@@ -11,8 +11,9 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { SubscribePopupComponent } from "./components/subscribe-popup/subscribe-popup.component";
 import { filter, map, timer } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { checkUserLogin, getFavoritesMovies } from './store/actions';
+import { checkUserLogin, deviceInfo, getFavoritesMovies } from './store/actions';
 import { selectUserId } from './store/selectors';
+import { DeviceDetectorService, DeviceInfo } from 'ngx-device-detector';
 
 @Component({
     selector: 'app-root',
@@ -33,12 +34,17 @@ import { selectUserId } from './store/selectors';
 })
 export class AppComponent implements OnInit {
     loading$ = this.loaderService.loaderState
+    deviceInfo!: DeviceInfo 
     constructor(
         private router: Router,
         private loaderService: LoaderService,
         private location: Location,
-        private store: Store
-    ) { }
+        private store: Store,
+        private deviceService: DeviceDetectorService
+    ) {
+        // this.deviceDetection()
+        store.dispatch(deviceInfo())
+     }
 
     ngOnInit(): void {
         
@@ -69,5 +75,18 @@ export class AppComponent implements OnInit {
         });
 
     }
+
+    // deviceDetection() {
+    //     console.log('Start device detector')
+    //     this.deviceInfo = this.deviceService.getDeviceInfo()
+    //     const isMobile = this.deviceService.isMobile()
+    //     const isTablet = this.deviceService.isTablet()
+    //     const isDesktop = this.deviceService.isDesktop()
+
+    //     console.log('0',this.deviceInfo);
+    //     console.log('1',isMobile);
+    //     console.log('2',isTablet);
+    //     console.log('3',isDesktop);
+    // }
 }
 
